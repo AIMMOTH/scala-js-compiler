@@ -1,9 +1,7 @@
-Scala JS Compiler
-=================
-
-Virtual compiles Scala JS to JavaScript. The aim is to create a service which 
-can submit Scala JS code, Scala JS class file or a JAR with Scala JS source
-and respond with a JavaScript.
+Google Flexible Environment with Scala
+======================================
+This is a Maven project with Google Flexible Environment with Java 8, Scala and 
+Web Servlets 3.1.
 
 Installation
 ------------
