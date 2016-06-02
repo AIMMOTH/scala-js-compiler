@@ -14,6 +14,7 @@
     <app.version>master</app.version>
     <appengine.version>1.9.38</appengine.version>
     <scala.version>2.11.8</scala.version>
+    <scala.js.version>0.6.9</scala.js.version>
     <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
@@ -34,48 +35,50 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
-      <!-- <type>jar</type> -->
-      <!-- <scope>provided</scope> -->
-    </dependency>
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
     </dependency>
 
-    <!-- Scala -->
+    <!-- org.scala-lang -->
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.lihaoyi</groupId>
-      <artifactId>scalatags_2.11</artifactId>
-      <version>0.5.4</version>
-    </dependency>
-    <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-compiler</artifactId>
-      <version>2.11.8</version>
+      <version>${scala.version}</version>
+    </dependency>
+    <!-- org.scala-js -->
+    <dependency>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-compiler_2.11.8</artifactId>
+      <version>${scala.js.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-compiler</artifactId>
-      <version>2.11.8</version>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-tools_2.11</artifactId>
+      <version>${scala.js.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>2.11.8</version>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
+      <version>0.9.0</version>
     </dependency>
     
+    <!-- Util -->
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <version>1.4</version>
     </dependency>
-
+    
+    <!-- Scala JS Extra -->
+    <dependency>
+      <groupId>com.lihaoyi</groupId>
+      <artifactId>scalatags_2.11</artifactId>
+      <version>0.5.4</version>
+    </dependency>
+    
     <!-- Test Dependencies -->
     <dependency>
       <groupId>com.google.appengine</groupId>
