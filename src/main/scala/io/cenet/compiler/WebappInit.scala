@@ -10,33 +10,39 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
 import scala.reflect.io.VirtualDirectory
+import java.io.File
 
-class WebappInit extends ServletContextListener {
+class WebappInit {
 
   val log = Logger.getLogger(classOf[WebappInit].getName())
 
-  override def contextDestroyed(context :ServletContextEvent) = {
-    log.info("kthxbye");
-  }
+//  override def contextDestroyed(context :ServletContextEvent) = {
+//    log.info("kthxbye");
+//  }
 
-  override def contextInitialized(contextEvent : ServletContextEvent) {
+//  override def contextInitialized(contextEvent : ServletContextEvent) {
 //  override def doPost(request: HttpServletRequest, response: HttpServletResponse) = doGet(request, response)
 //  override def doGet (request: HttpServletRequest, response: HttpServletResponse) = {
 
     log.info("Loading files ...")
-    getClass.getResourceAsStream("scalajs-library_2.11-0.6.8.jar")
+//    getClass.getResourceAsStream("scalajs-library_2.11-0.6.8.jar")
 
-    contextEvent.getServletContext match {
-      case context =>
-        val f = context.getResourcePaths("/WEB-INF/classes/libs").asInstanceOf[java.util.Set[String]]
+//    contextEvent.getServletContext match {
+//      case context =>
+//        val f = context.getResourcePaths("/WEB-INF/classes/libs").asInstanceOf[java.util.Set[String]]
+        val file = new File(".")
+    log.fine("File:" + file.getAbsoluteFile);
+        val f = file.list()
+        log.fine("files:" + f)
 //        JarFiles.files = f.asScala.map(_.substring("/WEB-INF/classes".length)).toSeq
 
         def recursive(resource : String) : Set[String] =
           if (resource.endsWith(".class") || resource.endsWith(".sjsir")) {
             Set(resource.substring("/WEB-INF/classes/libs".length))
           } else {
-            val dirs = context.getResourcePaths(resource).asInstanceOf[java.util.Set[String]]
-            dirs.asScala.map(recursive).toSet.flatten
+//            val dirs = context.getResourcePaths(resource).asInstanceOf[java.util.Set[String]]
+            val dirs = Option(new File(resource).list())
+            dirs.getOrElse(Array()).map(recursive).toSet.flatten
           }
         def toBytes(f : Seq[String]) = { f.map{
             case file =>
@@ -71,19 +77,20 @@ class WebappInit extends ServletContextListener {
               dir
           }.seq
         }
-        val files = f.asScala.map(recursive).toSeq.flatten
+        val files = f.map(recursive).toSeq.flatten
         log.info("ALL FILES:" + files)
         JarFiles.jarBytes = toBytes(files)
         JarFiles.jarFiles = toVirtual(JarFiles.jarBytes)
 
-        val source = context.getResourcePaths("/WEB-INF/classes/example/scalajs").asInstanceOf[java.util.Set[String]]
-        JarFiles.sourceFiles = toBytes(source.asScala.map(_.substring("/WEB-INF/classes".length)).toSeq)
+//        val source = context.getResourcePaths("/WEB-INF/classes/example/scalajs").asInstanceOf[java.util.Set[String]]
+        val source = new File("/WEB-INF/classes/example/scalajs").list()
+        JarFiles.sourceFiles = toBytes(source.map(_.substring("/WEB-INF/classes".length)).toSeq)
 
         log.info("Done loading bytes.")
 //        log.info("all files:" + JarFiles.files.mkString)
 //        log.info("all source:" + JarFiles.source.mkString)
-    }
-  }
+//    }
+//  }
 }
 
 object JarFiles {

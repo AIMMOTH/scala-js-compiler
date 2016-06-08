@@ -46,6 +46,7 @@ class VirtualClasspath {
   val repoRE = """([^ %]+) *%% *([^ %]+) *% *([^ %]+)""".r
 //  val repoBase = "https://repo1.maven.org/maven2"
   val sjsVersion = s"_sjs${VirtualConfig.scalaJSMainVersion}_${VirtualConfig.scalaMainVersion}"
+  val init = new WebappInit
 
 //  def buildRepoUri(ref: String) = {
 //    ref match {

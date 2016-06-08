@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
   version="3.1">
-  <listener>
-    <listener-class>io.cenet.compiler.WebappInit</listener-class>
-  </listener>
+<!--   <listener> -->
+<!--     <listener-class>io.cenet.compiler.WebappInit</listener-class> -->
+<!--   </listener> -->
   <servlet>
     <servlet-name>hello</servlet-name>
     <servlet-class>io.cenet.compiler.TestServlet</servlet-class>
