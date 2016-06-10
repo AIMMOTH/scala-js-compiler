@@ -14,7 +14,7 @@
     <app.version>master</app.version>
     <appengine.version>1.9.38</appengine.version>
     <scala.version>2.11.8</scala.version>
-    <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
+    <gcloud.plugin.version>2.0.9.111.v20160525</gcloud.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
   </properties>
@@ -142,7 +142,7 @@
             <!-- in order to interpolate version from pom into appengine-web.xml -->
             <resource>
               <directory>${basedir}/src/main/webapp/WEB-INF</directory>
-              <filtering>true</filtering>
+              <!---<filtering>true</filtering>-->
               <targetPath>WEB-INF</targetPath>
             </resource>
           </webResources>
