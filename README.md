@@ -9,19 +9,5 @@ Check it out [here](https://20160610t190610-dot-scala-js-compiler.appspot.com/)
 
 Installation
 ------------
-Install Java 8, Maven 3.3 and Google Cloud
-
-Run Locally
------------
-Use Python in Google Cloud to run the following script in project directory
-Build project with either maven
-```
-$ cd project
-$ mvn package
-$ \gcloud_sdk\google-cloud-sdk\platform\bundledpython\python.exe \gcloud_sdk\google-cloud-sdk\bin\dev_appserver.py target\scala-js-compiler-1.0-SNAPSHOT  
-```
-Or build project to src/main/webapp with an IDE: 
-```
-$ cd project
-$ \gcloud_sdk\google-cloud-sdk\platform\bundledpython\python.exe \gcloud_sdk\google-cloud-sdk\bin\dev_appserver.py src\main\webapp
-```
+Install Java 8, Maven 3.3 and Google Cloud. Important to have Python on path to 
+make Google Cloud to work!
