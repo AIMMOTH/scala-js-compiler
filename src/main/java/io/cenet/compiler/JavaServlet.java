@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "javaServlet", urlPatterns = "/java")
 @SuppressWarnings("serial")
-public class TestServlet extends HttpServlet {
+public class JavaServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

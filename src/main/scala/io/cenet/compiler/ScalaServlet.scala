@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServlet
 @SuppressWarnings(Array("serial"))
 class Compiler extends HttpServlet {
   
+  val x = 3
+  
   override def doGet(request : HttpServletRequest, response : HttpServletResponse) = {
     val out = response.getWriter
-    val list = 1 to 3
-    out.println(s"Scala! Sum of 1 to 3 is ${list.sum}")
+    val list = 1 to x
+    out.println(s"Scala! Sum of 1 to $x is ${list.sum}")
   }
 }
