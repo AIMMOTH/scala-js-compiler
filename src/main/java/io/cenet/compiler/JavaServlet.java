@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "helloworld", urlPatterns = {"/hello"}, value = "")
+@WebServlet(name = "javaServlet", urlPatterns = "/java")
 @SuppressWarnings("serial")
-public class TestServlet extends HttpServlet {
+public class JavaServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -20,6 +20,6 @@ public class TestServlet extends HttpServlet {
     is.add(3);
     is.add(3);
     PrintWriter out = resp.getWriter();
-    out.println("Hello, world 22 " + Arrays.toString(is.stream().distinct().toArray()));
+    out.println("Java 8 Servlet! Distinct of list with 3 and 3 is " + Arrays.toString(is.stream().distinct().toArray()));
   }
 }

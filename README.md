@@ -1,18 +1,19 @@
-Scala JS Compiler
-=================
+Google Flexible Environment with Scala
+======================================
+This is a Maven project with Google Flexible Environment with Java 8, Scala and 
+Web Servlets 3.1.
 
-Virtual compiles Scala JS to JavaScript. The aim is to create a service which 
-can submit Scala JS code, Scala JS class file or a JAR with Scala JS source
-and respond with a JavaScript.
+Live
+----
+Check it out [here](https://20160610t190610-dot-scala-js-compiler.appspot.com/)
 
 Installation
 ------------
-Install Java 8, Maven 3.3 and Google Cloud
+Install Java 8, Maven 3.3 and Google Cloud. Important to have Python on path to 
+make Google Cloud to work!
 
-Run Locally
------------
-Use Python in Google Cloud to run the following script in project directory: 
-```
-$ cd project
-$ \gcloud_sdk\google-cloud-sdk\platform\bundledpython\python.exe \gcloud_sdk\google-cloud-sdk\bin\dev_appserver.py src\main\webapp
-```
+Run and Deploy
+--------------
+
+Use maven and run $ mvn gcloud:run or $ mvn gcloud:deploy. Make sure Python is on
+path!
