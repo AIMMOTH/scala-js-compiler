@@ -10,12 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebServlet(name = "javaServlet", urlPatterns = "/java")
 @SuppressWarnings("serial")
 public class JavaServlet extends HttpServlet {
 
+  private static Logger logger = LoggerFactory.getLogger(JavaServlet.class);
+  
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    logger.info("Java Servlet callled!");
     ArrayList<Integer> is = new ArrayList<Integer>();
     is.add(3);
     is.add(3);
