@@ -1,11 +1,14 @@
 package io.cenet.compiler
 
+import javax.servlet.annotation.WebServlet
 import scalatags.stylesheet.Sheet
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import java.util.logging.Logger
 
+@WebServlet(name = "javascriptServlet", urlPatterns = Array("/javascript.js"))
+@SuppressWarnings(Array("serial"))
 class JavascriptBuilder extends HttpServlet {
 
   private val log = Logger.getLogger(classOf[JavascriptBuilder].getName())

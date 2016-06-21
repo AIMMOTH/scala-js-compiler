@@ -36,6 +36,12 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <!-- https://github.com/GoogleCloudPlatform/appengine-websocketchat-java -->
+    <dependency>
+      <groupId>org.java-websocket</groupId>
+      <artifactId>Java-WebSocket</artifactId>
+      <version>1.3.0</version>
+    </dependency>
 
     <!-- Scala -->
     <dependency>
@@ -70,7 +76,7 @@
       <artifactId>scalajs-tools_2.11</artifactId>
       <version>${scala.js.version}</version>
     </dependency>
-    
+
     <!-- Scala JS Util -->
     <dependency>
       <groupId>com.lihaoyi</groupId>
@@ -82,11 +88,23 @@
       <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
       <version>0.9.0</version>
     </dependency>
-    
+
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <version>1.4</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.21</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.21</version>
     </dependency>
 
     <!-- Test Dependencies -->
