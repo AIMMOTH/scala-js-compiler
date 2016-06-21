@@ -5,7 +5,7 @@ Web Servlets 3.1.
 
 Live
 ----
-Check it out [here](https://20160610t190610-dot-scala-js-compiler.appspot.com/)
+Check it out [here](https://20160621t175742-dot-scala-js-compiler.appspot.com/)
 
 Installation
 ------------
@@ -15,11 +15,17 @@ make Google Cloud to work!
 Run Locally
 -----------
 
-Either use maven to build and run with $ mvn gcloud:run
+Make sure Python is in path. It's included in GCloud SDK.
 
-Or use GCloud development server which is bundled with the GCloud SDK. Use the bundled python and run the follwing (including debugging on port 9000)
+1) Use maven to build and run
+```
+$ mvn gcloud:run
+```
 
+2) Use GCloud development server which is bundled with the GCloud SDK. Use the bundled python and run the follwing (including debugging on port 9000)
+```
 $ python %GCLOUD_SDK_HOME%\bin\dev_appserver.py src\main\webapp --jvm_flag=-agentlib:jdwp=transport=dt_socket,address=9000,server=y,suspend=n
+```
 
 Deploy
 ------ 
