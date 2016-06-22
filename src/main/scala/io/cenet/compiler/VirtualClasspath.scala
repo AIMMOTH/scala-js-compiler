@@ -208,7 +208,7 @@ class VirtualClasspath {
     * In memory cache of all the jars used in the linker.
     */
   val commonLibraries4linker =
-    JarFiles.jarBytes.map { case (name, data) => lib4linker(name, data) }
+    JarFiles.jarBytes.map { case (file, data) => lib4linker(file.getName, data) }
 
 //  val extLibraries4linker =
 //    extLibraries.map { case (key, (name, data)) => key -> lib4linker(name, data) }
