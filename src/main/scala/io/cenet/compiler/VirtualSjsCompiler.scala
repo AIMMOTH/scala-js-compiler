@@ -110,7 +110,8 @@ class VirtualSjsCompiler(classPath: VirtualClasspath, env: String) { self =>
   def initGlobalBits(logger: String => Unit) = {
     val vd = new io.VirtualDirectory("(memory)", None)
     val jCtx = new JavaContext()
-    val jDirs = classPath.compilerLibraries(extLibs).map(new DirectoryClassPath(_, jCtx)).toVector
+    val virtuals = classPath.compilerLibraries(extLibs)
+    val jDirs = virtuals.map(new DirectoryClassPath(_, jCtx)).toVector
     lazy val settings = new Settings
     settings.deprecation.value = true
     settings.unchecked.value = true

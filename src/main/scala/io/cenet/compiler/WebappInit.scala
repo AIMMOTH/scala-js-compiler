@@ -44,7 +44,7 @@ class WebappInit {
     def toVirtual(f: Seq[(File, Array[Byte])]) = {
       f.map {
         case (file, b) =>
-          val tokens = file.getPath.split("\\\\")
+          val tokens = file.getPath.split("\\\\").drop(3)
           val dir = new VirtualDirectory(tokens.head, None)
           def r(parent: VirtualDirectory, folders: Array[String]): VirtualDirectory = {
             if (folders.isEmpty) {
@@ -60,7 +60,7 @@ class WebappInit {
 
           val f = folder.fileNamed(tokens.last)
           if (f.name == "Object.class")
-            log.info(s"${f.name} in ${f.canonicalPath}")
+            log.info(s"${f.name} in ${f.canonicalPath} (${b.length}b)")
           val o = f.bufferedOutput
           o.write(b)
           o.close()
