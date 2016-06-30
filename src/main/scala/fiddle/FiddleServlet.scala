@@ -22,6 +22,8 @@ import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.servlet.ServletContext
+import javax.servlet.ServletConfig
 
 @WebServlet(name = "fiddleServlet", urlPatterns = Array("/fiddle.js"))
 class FiddleServlet extends HttpServlet {
@@ -32,10 +34,9 @@ class FiddleServlet extends HttpServlet {
   implicit val ec = system.dispatcher
   val log = LoggerFactory.getLogger(classOf[FiddleServlet])
   // initialize classpath singleton, loads all libraries
-  val classPath = new Classpath
+  var context : ServletContext = null
 
   // create compiler router
-  val compilerRouter = system.actorOf(FromConfig.props(CompileActor.props(classPath)), "compilerRouter")
 
   import HttpCharsets._
   import MediaTypes._
@@ -49,6 +50,8 @@ class FiddleServlet extends HttpServlet {
         throw new IllegalArgumentException(s"$opt is not a valid opt value")
     }
     val source = """"""
+  val classPath = new Classpath(context)
+    val compilerRouter = system.actorOf(FromConfig.props(CompileActor.props(classPath)), "compilerRouter")
     val res = ask(compilerRouter, CompileSource("scalatags", "raw", decodeSource(source), optimizer))
       .mapTo[Try[CompilerResponse]]
       .map {
@@ -62,6 +65,10 @@ class FiddleServlet extends HttpServlet {
           log.error("Error in compilation", e)
           HttpResponse(StatusCodes.InternalServerError)
       }
+  }
+  
+  override def init(config: ServletConfig) = {
+    context = config.getServletContext
   }
 
   def decodeSource(b64: String): String = {

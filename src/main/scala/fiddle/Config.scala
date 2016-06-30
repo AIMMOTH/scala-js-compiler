@@ -19,7 +19,7 @@ object Config {
   //  versionProps.load(getClass.getResourceAsStream("/version.properties"))
   versionProps.setProperty("version", "1.0.0-SNAPSHOT")
   versionProps.setProperty("scalaVersion", "2.11.8")
-  versionProps.setProperty("scalaJSVersion", "0.6.7")
+  versionProps.setProperty("scalaJSVersion", "0.6.9")
   versionProps.setProperty("aceVersion", "1.2.2")
 
   val interface = "0.0.0.0" // config.getString("interface")

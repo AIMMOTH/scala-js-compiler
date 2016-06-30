@@ -7,6 +7,7 @@ import scala.collection.mutable
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Try
+import javax.servlet.ServletContext
 
 sealed abstract class Optimizer
 

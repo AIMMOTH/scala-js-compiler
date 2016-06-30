@@ -23,6 +23,7 @@ import scala.tools.nsc.reporters.{ConsoleReporter, StoreReporter}
 import scala.tools.nsc.typechecker.Analyzer
 import scala.tools.nsc.util.ClassPath.JavaContext
 import scala.tools.nsc.util._
+import javax.servlet.ServletContext
 
 /**
   * Handles the interaction between scala-js-fiddle and
