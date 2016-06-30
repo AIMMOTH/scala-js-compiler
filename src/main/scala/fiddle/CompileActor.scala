@@ -18,10 +18,20 @@ object Optimizer {
 
 case class CompileSource(envId: String, templateId: String, sourceCode: String, optimizer: Optimizer)
 
+case class CompileSource2(sourceCode: String, optimizer: Optimizer)
+
 case class CompleteSource(envId: String, templateId: String, sourceCode: String, flag: String, offset: Int)
 
 class CompileActor(classPath: Classpath) extends Actor {
   def receive = {
+//    case CompileSource2(sourceCode, optimizer) =>
+//      val compiler = new Compiler(classPath, envId)
+//      val opt = optimizer match {
+//        case Optimizer.Fast => compiler.fastOpt _
+//        case Optimizer.Full => compiler.fullOpt _
+//      }
+//      sender() ! Try(doCompile(compiler, templateId, sourceCode, _ |> opt |> compiler.export))
+
     case CompileSource(envId, templateId, sourceCode, optimizer) =>
       val compiler = new Compiler(classPath, envId)
       val opt = optimizer match {

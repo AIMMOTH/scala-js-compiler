@@ -139,5 +139,5 @@ object Server extends App {
   println(s"Scala Fiddle ${Config.version}")
 
   // start the HTTP server
-  val bindingFuture = Http().bindAndHandle(route, Config.interface, Config.port)
+//  val bindingFuture = Http().bindAndHandle(route, Config.interface, Config.port)
 }
