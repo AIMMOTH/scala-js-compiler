@@ -1,6 +1,6 @@
 package fiddle
 
-import akka.actor.{Actor, Props}
+//import akka.actor.{Actor, Props}
 import org.scalajs.core.tools.io.VirtualScalaJSIRFile
 
 import scala.collection.mutable
@@ -19,32 +19,26 @@ object Optimizer {
 
 case class CompileSource(envId: String, templateId: String, sourceCode: String, optimizer: Optimizer)
 
-case class CompileSource2(sourceCode: String, optimizer: Optimizer)
-
 case class CompleteSource(envId: String, templateId: String, sourceCode: String, flag: String, offset: Int)
 
-class CompileActor(classPath: Classpath) extends Actor {
-  def receive = {
-//    case CompileSource2(sourceCode, optimizer) =>
-//      val compiler = new Compiler(classPath, envId)
-//      val opt = optimizer match {
-//        case Optimizer.Fast => compiler.fastOpt _
-//        case Optimizer.Full => compiler.fullOpt _
-//      }
-//      sender() ! Try(doCompile(compiler, templateId, sourceCode, _ |> opt |> compiler.export))
+class CompileActor(classPath: Classpath, envId: String, templateId: String, sourceCode: String, optimizer: Optimizer) 
+//extends Actor 
+{
+//  def receive = {
 
-    case CompileSource(envId, templateId, sourceCode, optimizer) =>
+//    case CompileSource(envId, templateId, sourceCode, optimizer) =>
       val compiler = new Compiler(classPath, envId)
+//      val compiler = new Compiler(classPath, envId)
       val opt = optimizer match {
         case Optimizer.Fast => compiler.fastOpt _
         case Optimizer.Full => compiler.fullOpt _
       }
-      sender() ! Try(doCompile(compiler, templateId, sourceCode, _ |> opt |> compiler.export))
+//      sender() ! Try(doCompile(compiler, templateId, sourceCode, _ |> opt |> compiler.export))
 
-    case CompleteSource(envId, templateId, sourceCode, flag, offset) =>
-      val compiler = new Compiler(classPath, envId)
-      sender() ! Try(Await.result(compiler.autocomplete(templateId, sourceCode, flag, offset.toInt), 30.seconds))
-  }
+//    case CompleteSource(envId, templateId, sourceCode, flag, offset) =>
+//      val compiler = new Compiler(classPath, envId)
+//      sender() ! Try(Await.result(compiler.autocomplete(templateId, sourceCode, flag, offset.toInt), 30.seconds))
+//  }
 
   val errorStart = """^\w+.scala:(\d+): *(\w+): *(.*)""".r
   val errorEnd = """ *\^ *$""".r
@@ -66,7 +60,11 @@ class CompileActor(classPath: Classpath) extends Actor {
     annotations
   }
 
-  def doCompile(compiler: Compiler, templateId: String, code: String, processor: Seq[VirtualScalaJSIRFile] => String): CompilerResponse = {
+  def doCompile = {
+    compile(compiler, templateId, sourceCode, _ |> opt |> compiler.export)
+  }
+
+  private def compile(compiler: Compiler, templateId: String, code: String, processor: Seq[VirtualScalaJSIRFile] => String): CompilerResponse = {
     println(s"Using template $templateId")
     val output = mutable.Buffer.empty[String]
 
@@ -81,6 +79,6 @@ class CompileActor(classPath: Classpath) extends Actor {
   }
 }
 
-object CompileActor {
-  def props(classPath: Classpath) = Props(new CompileActor(classPath))
-}
+//object CompileActor {
+//  def props(classPath: Classpath) = Props(new CompileActor(classPath))
+//}

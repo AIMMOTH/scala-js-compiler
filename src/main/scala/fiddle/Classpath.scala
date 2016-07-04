@@ -4,11 +4,11 @@ import java.io._
 import java.nio.file.Files
 import java.util.zip.ZipInputStream
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
-import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.FileIO
+//import akka.actor.ActorSystem
+//import akka.http.scaladsl.Http
+//import akka.http.scaladsl.model._
+//import akka.stream.ActorMaterializer
+//import akka.stream.scaladsl.FileIO
 import org.scalajs.core.tools.io._
 import org.slf4j.LoggerFactory
 
@@ -24,9 +24,9 @@ import javax.servlet.ServletContext
  * scala-compile and scalajs-tools
  */
 class Classpath(context: ServletContext) {
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
-  implicit val ec = system.dispatcher
+//  implicit val system = ActorSystem()
+//  implicit val materializer = ActorMaterializer()
+//  implicit val ec = system.dispatcher
 
   val log = LoggerFactory.getLogger(getClass)
   val timeout = 60.seconds
@@ -59,29 +59,34 @@ class Classpath(context: ServletContext) {
     // check if it has been loaded already
     val f = new File(Config.libCache, name)
     if (f.exists()) {
-      log.debug(s"Loading $name from ${Config.libCache}")
-      Future { (name, Files.readAllBytes(f.toPath)) }
+      log.info(s"Loading $name from ${Config.libCache}")
+//      Future { 
+        (name -> Files.readAllBytes(f.toPath)) 
+//        }
     } else {
-      log.debug(s"Loading $name from $uri")
+      log.info(s"Loading $name from $uri")
       f.getParentFile.mkdirs()
-      Http().singleRequest(HttpRequest(uri = uri)).flatMap { response =>
-        val source = response.entity.dataBytes
-        // save to cache
-        val sink = FileIO.toFile(f)
-        source.runWith(sink).map { ioResponse =>
-          log.debug(s"Storing $name with ${ioResponse.count} bytes to cache")
-          (name, Files.readAllBytes(f.toPath))
-        }
-      } recover {
+      try {
+//      Http().singleRequest(HttpRequest(uri = uri)).flatMap { response =>
+//        val source = response.entity.dataBytes
+//        // save to cache
+//        val sink = FileIO.toFile(f)
+//        source.runWith(sink).map { ioResponse =>
+//          log.debug(s"Storing $name with ${ioResponse.count} bytes to cache")
+//          (name, Files.readAllBytes(f.toPath))
+//        }
+//      } recover {
+        (name -> Array[Byte]())
+      } catch {
         case e: Exception =>
-          log.debug(s"Error loading $uri: $e")
+          log.info(s"Error loading $uri: $e")
           throw e
       }
     }
   }
 
   val commonLibraries = {
-    log.debug("Loading files...")
+    log.info("Loading files...")
     // load all external libs in parallel using spray-client
     val jarFiles = baseLibs.par.map { name =>
       //    val dot = context.getResource(".")
@@ -114,22 +119,39 @@ class Classpath(context: ServletContext) {
    * External libraries loaded from repository
    */
   val extLibraries = {
-    Await.result(Future.sequence(Config.extLibs.map {
+//    Await.result(Future.sequence(
+        Config.extLibs.map {
       case (name, ref) =>
-        loadExtLib(ref).map(name -> _)
-    }), timeout).toMap
+        (name -> loadExtLib(ref))
+//        .map(name -> _)
+    }
+//        ), timeout).toMap
   }
 
   /**
    * The loaded files shaped for Scalac to use
    */
   def lib4compiler(name: String, bytes: Array[Byte]) = {
-    log.debug(s"Loading $name for Scalac")
+    log.info(s"Loading $name for Scalac")
     val in = new ZipInputStream(new ByteArrayInputStream(bytes))
     val entries = Iterator
-      .continually(in.getNextEntry)
+      .continually({
+        try {
+          in.getNextEntry
+        } catch {
+          case e : Exception =>
+            null
+        }
+      })
       .takeWhile(_ != null)
-      .map((_, Streamable.bytes(in)))
+      .map(x => {
+        try {
+          (x, Streamable.bytes(in))
+        } catch {
+          case e : Exception =>
+            (x, Array[Byte]())
+        }
+      })
 
     val dir = new VirtualDirectory(name, None)
     for {
@@ -164,8 +186,15 @@ class Classpath(context: ServletContext) {
    * memory but is better than reaching all over the filesystem every time we
    * want to do something.
    */
-  val commonLibraries4compiler =
-    Await.result(Future.sequence(commonLibraries.map { case (name, data) => Future(lib4compiler(name, data)) }), timeout)
+  val commonLibraries4compiler = {
+//    Await.result(Future.sequence(
+        commonLibraries.map { case (name, data) => 
+//          Future(
+              lib4compiler(name, data)
+//              )
+              }
+//        ), timeout)
+  }
   val extLibraries4compiler =
     extLibraries.map { case (key, (name, data)) => key -> lib4compiler(name, data) }
 

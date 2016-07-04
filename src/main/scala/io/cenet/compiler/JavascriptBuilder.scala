@@ -1,7 +1,6 @@
 package io.cenet.compiler
 
 import javax.servlet.annotation.WebServlet
-import scalatags.stylesheet.Sheet
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest

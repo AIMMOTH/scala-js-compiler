@@ -2,14 +2,14 @@ package fiddle
 
 import java.io.{PrintWriter, Writer}
 
-import akka.util.ByteString
+//import akka.util.ByteString
 import org.scalajs.core.tools.io._
 import org.scalajs.core.tools.linker.Linker
 import org.scalajs.core.tools.logging._
 import org.scalajs.core.tools.sem.Semantics
 import org.slf4j.LoggerFactory
 
-import scala.async.Async.async
+//import scala.async.Async.async
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -111,13 +111,14 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     settings.outputDirs.setSingleOutput(vd)
     val writer = new Writer {
-      var inner = ByteString()
+//      var inner = ByteString()
       def write(cbuf: Array[Char], off: Int, len: Int): Unit = {
-        inner = inner ++ ByteString.fromArray(cbuf.map(_.toByte), off, len)
+//        inner = inner ++ ByteString.fromArray(cbuf.map(_.toByte), off, len)
+        log.info(new String(cbuf))
       }
       def flush(): Unit = {
-        logger(inner.utf8String)
-        inner = ByteString()
+//        logger(inner.utf8String)
+//        inner = ByteString()
       }
       def close(): Unit = ()
     }
@@ -132,39 +133,39 @@ class Compiler(classPath: Classpath, env: String) { self =>
     }
   }
 
-  def autocomplete(templateId: String, code: String, flag: String, pos: Int): Future[List[(String, String)]] = async {
-    import scala.tools.nsc.interactive._
-
-    val template = getTemplate(templateId)
-    // global can be reused, just create new runs for new compiler invocations
-    val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(_ => ())
-    settings.processArgumentString("-Ypresentation-any-thread")
-    val compiler = new nsc.interactive.Global(settings, reporter) with InMemoryGlobal {
-      g =>
-      def ctx = jCtx
-      def dirs = jDirs
-      override lazy val analyzer = new {
-        val global: g.type = g
-      } with InteractiveAnalyzer {
-        val cl = inMemClassloader
-        override def findMacroClassLoader() = cl
-      }
-    }
-
-    val offset = pos + template.pre.length
-    val fullSource = template.fullSource(code)
-    val source = fullSource.take(offset) + "_CURSOR_ " + fullSource.drop(offset)
-    val run = new compiler.TyperRun
-    val unit = compiler.newCompilationUnit(source, "ScalaFiddle.scala")
-    val richUnit = new compiler.RichCompilationUnit(unit.source)
-    log.debug(s"Source: ${source.take(offset)}${scala.Console.RED}|${scala.Console.RESET}${source.drop(offset)}")
-    compiler.unitOfFile(richUnit.source.file) = richUnit
-    val results = compiler.completionsAt(richUnit.position(offset)).matchingResults()
-
-    log.debug(s"Completion results: ${results.take(20)}")
-
-    results.map(r => (r.sym.signatureString, r.symNameDropLocal.decoded)).distinct
-  }
+//  def autocomplete(templateId: String, code: String, flag: String, pos: Int): Future[List[(String, String)]] = async {
+//    import scala.tools.nsc.interactive._
+//
+//    val template = getTemplate(templateId)
+//    // global can be reused, just create new runs for new compiler invocations
+//    val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(_ => ())
+//    settings.processArgumentString("-Ypresentation-any-thread")
+//    val compiler = new nsc.interactive.Global(settings, reporter) with InMemoryGlobal {
+//      g =>
+//      def ctx = jCtx
+//      def dirs = jDirs
+//      override lazy val analyzer = new {
+//        val global: g.type = g
+//      } with InteractiveAnalyzer {
+//        val cl = inMemClassloader
+//        override def findMacroClassLoader() = cl
+//      }
+//    }
+//
+//    val offset = pos + template.pre.length
+//    val fullSource = template.fullSource(code)
+//    val source = fullSource.take(offset) + "_CURSOR_ " + fullSource.drop(offset)
+//    val run = new compiler.TyperRun
+//    val unit = compiler.newCompilationUnit(source, "ScalaFiddle.scala")
+//    val richUnit = new compiler.RichCompilationUnit(unit.source)
+//    log.debug(s"Source: ${source.take(offset)}${scala.Console.RED}|${scala.Console.RESET}${source.drop(offset)}")
+//    compiler.unitOfFile(richUnit.source.file) = richUnit
+//    val results = compiler.completionsAt(richUnit.position(offset)).matchingResults()
+//
+//    log.debug(s"Completion results: ${results.take(20)}")
+//
+//    results.map(r => (r.sym.signatureString, r.symNameDropLocal.decoded)).distinct
+//  }
 
   def compile(templateId: String, src: String, logger: String => Unit = _ => ()): Option[Seq[VirtualScalaJSIRFile]] = {
 

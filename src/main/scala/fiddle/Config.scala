@@ -2,9 +2,9 @@ package fiddle
 
 import java.util.Properties
 
-import akka.http.scaladsl.model.HttpHeader
-import akka.http.scaladsl.model.headers.RawHeader
-import com.typesafe.config.ConfigFactory
+//import akka.http.scaladsl.model.HttpHeader
+//import akka.http.scaladsl.model.headers.RawHeader
+//import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConverters._
 
@@ -109,7 +109,7 @@ object ScalaFiddle extends js.JSApp {
   //    co.getString("name") -> Template(co.getString("pre"), co.getString("post"))
   //  }.toMap
 
-  val httpHeaders: List[HttpHeader] = List()
+//  val httpHeaders: List[HttpHeader] = List()
 //  config.getConfig("httpHeaders").entrySet().asScala.map { entry =>
 //    RawHeader(entry.getKey, entry.getValue.unwrapped().asInstanceOf[String])
 //  }.toList
