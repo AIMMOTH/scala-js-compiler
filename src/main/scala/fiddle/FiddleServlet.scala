@@ -49,13 +49,29 @@ class FiddleServlet extends HttpServlet {
       case _ =>
         throw new IllegalArgumentException(s"$opt is not a valid opt value")
     }
-    val source = """println('Hello world')"""
+    val source = """
+      package example
+      import scala.scalajs.js.JSApp
+      import scala.scalajs.js.annotation.JSExport
+
+@JSExport
+object TutorialApp extends JSApp {
+  @JSExport
+  def main(): Unit = {
+    println("Hello world!")
+  }
+  @JSExport
+  def addClickedMessage(): Unit = {
+    println("haj")
+  }
+}
+      """
   val classPath = new Classpath(context)
 //    val compilerRouter = system.actorOf(FromConfig.props(CompileActor.props(classPath)), "compilerRouter")
 //    val res = ask(compilerRouter, CompileSource("scalatags", "raw", decodeSource(source), optimizer))
 //      .mapTo[Try[CompilerResponse]]
 //    CompileSource("scalatags", "default", decodeSource(source), optimizer)
-    val actor = new CompileActor(classPath, "scalatags", "default", 
+    val actor = new CompileActor(classPath, "scalatags", "raw", 
 //        decodeSource(
             source
 //            )
@@ -67,7 +83,7 @@ class FiddleServlet extends HttpServlet {
 //          val result = write(cr)
 //          HttpResponse(StatusCodes.OK, entity = HttpEntity(`application/json`, ByteString(result)))
           response.setHeader("content-type", "application/json")
-          response.getWriter.println(cr)
+          response.getWriter.println(cr.jsCode.get)
           response.getWriter.flush
         case cr =>
           response.sendError(HttpServletResponse.SC_BAD_REQUEST, cr.log)
