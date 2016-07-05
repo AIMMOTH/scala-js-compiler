@@ -50,19 +50,22 @@ class FiddleServlet extends HttpServlet {
         throw new IllegalArgumentException(s"$opt is not a valid opt value")
     }
     val source = """
-      package example
-      import scala.scalajs.js.JSApp
-      import scala.scalajs.js.annotation.JSExport
+
+//package example
+
+import scala.scalajs.js
+import js.annotation.JSExport
 
 @JSExport
-object TutorialApp extends JSApp {
+class Foo(val x: Int) {
+  override def toString(): String = s"Foo($x)"
+}
+
+@JSExport
+object HelloWorld extends js.JSApp {
   @JSExport
   def main(): Unit = {
     println("Hello world!")
-  }
-  @JSExport
-  def addClickedMessage(): Unit = {
-    println("haj")
   }
 }
       """
@@ -78,7 +81,7 @@ object TutorialApp extends JSApp {
             , optimizer)
     actor.doCompile match {
 //      .map {
-      case cr if cr.jsCode.isDefined=>
+      case cr if cr.jsCode.isDefined =>
 //        case Success(cr) =>
 //          val result = write(cr)
 //          HttpResponse(StatusCodes.OK, entity = HttpEntity(`application/json`, ByteString(result)))

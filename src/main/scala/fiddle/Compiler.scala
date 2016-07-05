@@ -171,7 +171,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     val template = getTemplate(templateId)
     val fullSource = template.fullSource(src)
-    log.debug("Compiling source:\n" + fullSource)
+    log.info("Compiling source:\n" + fullSource)
     val singleFile = makeFile(fullSource.getBytes("UTF-8"))
 
     val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(logger)
@@ -204,8 +204,10 @@ class Compiler(classPath: Classpath, env: String) { self =>
     }
   }
 
-  def export(output: VirtualJSFile): String =
+  def export(output: VirtualJSFile): String = {
+    log.debug(s"output content: ${output.content}")
     output.content
+  }
 
   def fastOpt(userFiles: Seq[VirtualScalaJSIRFile]): VirtualJSFile =
     link(userFiles, fullOpt = false)

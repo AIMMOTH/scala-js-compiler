@@ -8,6 +8,8 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Try
 import javax.servlet.ServletContext
+import java.util.logging.Logger
+import org.slf4j.LoggerFactory
 
 sealed abstract class Optimizer
 
@@ -24,6 +26,8 @@ case class CompleteSource(envId: String, templateId: String, sourceCode: String,
 class CompileActor(classPath: Classpath, envId: String, templateId: String, sourceCode: String, optimizer: Optimizer) 
 //extends Actor 
 {
+  
+  val log = LoggerFactory.getLogger(getClass)
 //  def receive = {
 
 //    case CompileSource(envId, templateId, sourceCode, optimizer) =>
@@ -75,6 +79,8 @@ class CompileActor(classPath: Classpath, envId: String, templateId: String, sour
 
     val preRows = template.pre.count(_ == '\n')
     val logSpam = output.mkString
+    log.debug(s"preRows:$preRows")
+    log.debug(s"logSpam:$logSpam")
     CompilerResponse(res.map(processor), parseErrors(preRows, logSpam), logSpam)
   }
 }
