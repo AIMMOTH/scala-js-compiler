@@ -24,6 +24,8 @@ import scala.tools.nsc.typechecker.Analyzer
 import scala.tools.nsc.util.ClassPath.JavaContext
 import scala.tools.nsc.util._
 import javax.servlet.ServletContext
+import scala.reflect.io.VirtualDirectory
+import scala.reflect.io.AbstractFile
 
 /**
   * Handles the interaction between scala-js-fiddle and
@@ -192,15 +194,19 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     if (vd.iterator.isEmpty) None
     else {
-      val things = for {
-        x <- vd.iterator.to[collection.immutable.Traversable]
-        if x.name.endsWith(".sjsir")
-      } yield {
-        val f = new MemVirtualSerializedScalaJSIRFile(x.path)
-        f.content = x.toByteArray
-        f: VirtualScalaJSIRFile
+      def findSjsirFiles(vd : AbstractFile) : List[AbstractFile] = {
+        val folders = vd.iterator.filter(_.isDirectory).toList
+        val folderFiles = folders.flatMap(_.iterator).toList
+        val sjFiles = folderFiles.filter(_.name.endsWith(".sjsir")).toList
+        
+        sjFiles ::: folders.flatMap(findSjsirFiles)
       }
-      Some(things.toSeq)
+      Some(findSjsirFiles(vd).map {
+        case x =>
+          val f = new MemVirtualSerializedScalaJSIRFile(x.path)
+          f.content = x.toByteArray
+          f: VirtualScalaJSIRFile
+      }.toSeq)
     }
   }
 

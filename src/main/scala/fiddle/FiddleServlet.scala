@@ -51,7 +51,7 @@ class FiddleServlet extends HttpServlet {
     }
     val source = """
 
-//package example
+package example
 
 import scala.scalajs.js
 import js.annotation.JSExport
