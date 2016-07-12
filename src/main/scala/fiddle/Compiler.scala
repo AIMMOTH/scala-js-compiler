@@ -192,14 +192,14 @@ class Compiler(classPath: Classpath, env: String) { self =>
     val run = new compiler.Run()
     run.compileFiles(List(singleFile))
 
-    if (vd.iterator.isEmpty) None
+    if (vd.iterator.isEmpty)
+      None
     else {
-      def findSjsirFiles(vd : AbstractFile) : List[AbstractFile] = {
-        val folders = vd.iterator.filter(_.isDirectory).toList
-        val folderFiles = folders.flatMap(_.iterator).toList
-        val sjFiles = folderFiles.filter(_.name.endsWith(".sjsir")).toList
-        
-        sjFiles ::: folders.flatMap(findSjsirFiles)
+      def findSjsirFiles(vd : AbstractFile) : Iterator[AbstractFile] = {
+        (vd.iterator.filter(_.isDirectory), vd.iterator.filter(_.name.endsWith(".sjsir"))) match {
+          case (folders, sjFiles) =>
+          sjFiles ++ folders.flatMap(findSjsirFiles)
+        }
       }
       Some(findSjsirFiles(vd).map {
         case x =>
