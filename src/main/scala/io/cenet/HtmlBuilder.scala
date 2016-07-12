@@ -13,7 +13,7 @@ class HtmlBuilder extends HttpServlet {
   val logger = LoggerFactory.getLogger(getClass);
     
   override def doGet(request : HttpServletRequest, response : HttpServletResponse) = {
-    html(
+    response.getWriter.println(html(
       head(
         script(src:="javascript.js")
       ),
@@ -21,9 +21,9 @@ class HtmlBuilder extends HttpServlet {
         div(
           h1(id:="title", "This is a title"),
           p("This is a big paragraph of text"),
-          button(value := "Run Virtual Compiled ScalaJS", onclick:="example.HelloWorld().alert()")
+          button(onclick:="example.HelloWorld().alert()")("Run Virtual Compiled ScalaJS")
         )
       )
-    )
+    ).toString)
   }
 }
