@@ -1,11 +1,16 @@
-Google Flexible Environment with Scala
-======================================
+Virtual Scala JS Compiler
+=========================
+
+This shows how to compile a Scala JS String to JavaScript. It also creates HTML from Scala.
+
+Environment
+-----------
 This is a Maven project with Google Flexible Environment with Java 8, Scala and 
 Web Servlets 3.1.
 
 Live
 ----
-Check it out [here](https://20160610t190610-dot-scala-js-compiler.appspot.com/)
+Check it out [here](https://scala-js-compiler.appspot.com/index.scala)
 
 Installation
 ------------
