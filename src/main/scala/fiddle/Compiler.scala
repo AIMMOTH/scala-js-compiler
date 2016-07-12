@@ -32,19 +32,11 @@ import scala.reflect.io.AbstractFile
   * scalac/scalajs-tools to compile and optimize code submitted by users.
   */
 class Compiler(classPath: Classpath, env: String) { self =>
+  
   val log = LoggerFactory.getLogger(getClass)
   val sjsLogger = new Log4jLogger()
   val blacklist = Set("<init>")
   val extLibs = Config.environments.getOrElse(env, Nil)
-
-  /**
-    * Converts Scalac's weird Future type
-    * into a standard scala.concurrent.Future
-    */
-  def toFuture[T](func: Response[T] => Unit): Future[T] = {
-    val r = new Response[T]
-    Future {func(r); r.get.left.get}
-  }
 
   /**
     * Converts a bunch of bytes into Scalac's weird VirtualFile class
@@ -89,8 +81,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
     * loading its classpath and running macros from pre-loaded
     * in-memory files
     */
-  trait InMemoryGlobal {
-    g: scala.tools.nsc.Global =>
+  trait InMemoryGlobal { g: scala.tools.nsc.Global =>
     def ctx: JavaContext
     def dirs: Vector[DirectoryClassPath]
     override lazy val plugins = List[Plugin](new org.scalajs.core.compiler.ScalaJSPlugin(this))
@@ -113,14 +104,10 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     settings.outputDirs.setSingleOutput(vd)
     val writer = new Writer {
-//      var inner = ByteString()
       def write(cbuf: Array[Char], off: Int, len: Int): Unit = {
-//        inner = inner ++ ByteString.fromArray(cbuf.map(_.toByte), off, len)
         log.info(new String(cbuf))
       }
       def flush(): Unit = {
-//        logger(inner.utf8String)
-//        inner = ByteString()
       }
       def close(): Unit = ()
     }
@@ -135,45 +122,11 @@ class Compiler(classPath: Classpath, env: String) { self =>
     }
   }
 
-//  def autocomplete(templateId: String, code: String, flag: String, pos: Int): Future[List[(String, String)]] = async {
-//    import scala.tools.nsc.interactive._
-//
-//    val template = getTemplate(templateId)
-//    // global can be reused, just create new runs for new compiler invocations
-//    val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(_ => ())
-//    settings.processArgumentString("-Ypresentation-any-thread")
-//    val compiler = new nsc.interactive.Global(settings, reporter) with InMemoryGlobal {
-//      g =>
-//      def ctx = jCtx
-//      def dirs = jDirs
-//      override lazy val analyzer = new {
-//        val global: g.type = g
-//      } with InteractiveAnalyzer {
-//        val cl = inMemClassloader
-//        override def findMacroClassLoader() = cl
-//      }
-//    }
-//
-//    val offset = pos + template.pre.length
-//    val fullSource = template.fullSource(code)
-//    val source = fullSource.take(offset) + "_CURSOR_ " + fullSource.drop(offset)
-//    val run = new compiler.TyperRun
-//    val unit = compiler.newCompilationUnit(source, "ScalaFiddle.scala")
-//    val richUnit = new compiler.RichCompilationUnit(unit.source)
-//    log.debug(s"Source: ${source.take(offset)}${scala.Console.RED}|${scala.Console.RESET}${source.drop(offset)}")
-//    compiler.unitOfFile(richUnit.source.file) = richUnit
-//    val results = compiler.completionsAt(richUnit.position(offset)).matchingResults()
-//
-//    log.debug(s"Completion results: ${results.take(20)}")
-//
-//    results.map(r => (r.sym.signatureString, r.symNameDropLocal.decoded)).distinct
-//  }
-
   def compile(templateId: String, src: String, logger: String => Unit = _ => ()): Option[Seq[VirtualScalaJSIRFile]] = {
 
     val template = getTemplate(templateId)
     val fullSource = template.fullSource(src)
-    log.info("Compiling source:\n" + fullSource)
+    log.debug("Compiling source:\n" + fullSource)
     val singleFile = makeFile(fullSource.getBytes("UTF-8"))
 
     val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(logger)

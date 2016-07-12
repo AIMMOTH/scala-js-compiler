@@ -71,23 +71,23 @@
       <artifactId>scalajs-library_2.11</artifactId>
       <version>${scala.js.version}</version>
     </dependency>
-<!--     <dependency> -->
-<!--       <groupId>org.scala-js</groupId> -->
-<!--       <artifactId>scalajs-tools_2.11</artifactId> -->
-<!--       <version>${scala.js.version}</version> -->
-<!--     </dependency> -->
+    <dependency>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-tools_2.11</artifactId>
+      <version>${scala.js.version}</version>
+    </dependency>
 
     <!-- Scala JS Util -->
-<!--     <dependency> -->
-<!--       <groupId>com.lihaoyi</groupId> -->
-<!--       <artifactId>scalatags_2.11</artifactId> -->
-<!--       <version>0.5.4</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.scala-js</groupId> -->
-<!--       <artifactId>scalajs-dom_sjs0.6_2.11</artifactId> -->
-<!--       <version>0.9.0</version> -->
-<!--     </dependency> -->
+    <dependency>
+      <groupId>com.lihaoyi</groupId>
+      <artifactId>scalatags_2.11</artifactId>
+      <version>0.5.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
+      <version>0.9.0</version>
+    </dependency>
 
     <dependency>
       <groupId>commons-codec</groupId>
