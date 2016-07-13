@@ -36,12 +36,6 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
     </dependency>
-    <!-- https://github.com/GoogleCloudPlatform/appengine-websocketchat-java -->
-    <dependency>
-      <groupId>org.java-websocket</groupId>
-      <artifactId>Java-WebSocket</artifactId>
-      <version>1.3.0</version>
-    </dependency>
 
     <!-- Scala -->
     <dependency>
@@ -59,11 +53,6 @@
     <dependency>
       <groupId>org.scala-js</groupId>
       <artifactId>scalajs-compiler_2.11.8</artifactId>
-      <version>${scala.js.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-js</groupId>
-      <artifactId>scalajs-tools_2.11</artifactId>
       <version>${scala.js.version}</version>
     </dependency>
     <dependency>
@@ -94,97 +83,16 @@
       <artifactId>commons-codec</artifactId>
       <version>1.4</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.21</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.21</version>
     </dependency>
-
-    <!-- Fiddle -->
-<!--     <dependency> -->
-<!--       <groupId>com.typesafe.akka</groupId> -->
-<!--       <artifactId>akka-actor_2.11</artifactId> -->
-<!--       <version>2.4.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.typesafe.akka</groupId> -->
-<!--       <artifactId>akka-slf4j_2.11</artifactId> -->
-<!--       <version>2.4.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.typesafe.akka</groupId> -->
-<!--       <artifactId>akka-http-core_2.11</artifactId> -->
-<!--       <version>2.4.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.typesafe.akka</groupId> -->
-<!--       <artifactId>akka-http-experimental_2.11</artifactId> -->
-<!--       <version>2.4.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.typesafe.akka</groupId> -->
-<!--       <artifactId>akka-http-spray-json-experimental_2.11</artifactId> -->
-<!--       <version>2.4.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>ch.qos.logback</groupId> -->
-<!--       <artifactId>logback-classic</artifactId> -->
-<!--       <version>1.1.3</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.scala-js</groupId> -->
-<!--       <artifactId>scalajs-compiler_2.11.8</artifactId> -->
-<!--       <version>0.6.7</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.scala-js</groupId> -->
-<!--       <artifactId>scalajs-tools_2.11</artifactId> -->
-<!--       <version>0.6.7</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.scala-lang.modules</groupId> -->
-<!--       <artifactId>scala-async_2.11</artifactId> -->
-<!--       <version>0.9.1</version> -->
-<!--       <scope>provided</scope> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.lihaoyi</groupId> -->
-<!--       <artifactId>scalatags_2.11</artifactId> -->
-<!--       <version>0.5.4</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.webjars</groupId> -->
-<!--       <artifactId>ace</artifactId> -->
-<!--       <version>1.2.2</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.webjars</groupId> -->
-<!--       <artifactId>normalize.css</artifactId> -->
-<!--       <version>2.1.3</version> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>com.lihaoyi</groupId> -->
-<!--       <artifactId>upickle_2.11</artifactId> -->
-<!--       <version>0.3.8</version> -->
-<!--     </dependency> -->
-    <dependency>
-      <groupId>com.github.marklister</groupId>
-      <artifactId>base64_2.11</artifactId>
-      <version>0.2.2</version>
-    </dependency>
-<!--     <dependency> -->
-<!--       <groupId>com.lihaoyi</groupId> -->
-<!--       <artifactId>utest_2.11</artifactId> -->
-<!--       <version>0.3.0</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
 
     <!-- Test Dependencies -->
     <dependency>
