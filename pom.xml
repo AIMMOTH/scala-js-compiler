@@ -118,7 +118,7 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>add-source</id>
+            <id>add-scala-source</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>add-source</goal>
@@ -138,6 +138,18 @@
             <configuration>
               <sources>
                 <source>src/test/scala</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-scalajs-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/main/webapp/scalajs</source>
               </sources>
             </configuration>
           </execution>
