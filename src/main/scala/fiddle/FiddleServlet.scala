@@ -46,7 +46,7 @@ object HelloWorld extends js.JSApp {
       case _      => Optimizer.Fast
     }
 
-    val actor = new CompileActor(Classpath(request.getServletContext), "scalatags", "raw",
+    val actor = new CompileActor(Classpath(request.getServletContext.asInstanceOf[Class[ServletContext]], "/WEB-INF/lib/"), "scalatags", "raw",
       source, optimizer)
     actor.doCompile match {
       case cr if cr.jsCode.isDefined =>

@@ -19,10 +19,10 @@ import scala.reflect.io.{ Streamable, VirtualDirectory }
 import javax.servlet.ServletContext
 
 object Classpath {
-  
-  private lazy val build : ServletContext => Classpath = (context) => new Classpath(context)
-  
-  def apply(context : ServletContext) = build(context)
+
+  private lazy val build: (Class[_], String) => Classpath = (context, jarPath) => new Classpath(context, jarPath)
+
+  def apply(context: Class[_], jarPath: String) = build(context, jarPath)
 }
 
 /**
@@ -30,7 +30,7 @@ object Classpath {
  * compiler and re-shapes it into the correct structure to satisfy
  * scala-compile and scalajs-tools
  */
-class Classpath(context: ServletContext) {
+class Classpath(context: Class[_], jarPath: String) {
 
   val log = LoggerFactory.getLogger(getClass)
   val timeout = 60.seconds
@@ -40,8 +40,7 @@ class Classpath(context: ServletContext) {
     s"scala-reflect-${Config.scalaVersion}.jar",
     s"scalajs-library_${Config.scalaMainVersion}-${Config.scalaJSVersion}.jar",
     s"scalajs-dom_sjs${Config.scalaJSMainVersion}_${Config.scalaMainVersion}-0.9.0.jar",
-    s"scalatags_${Config.scalaMainVersion}-0.5.4.jar"
-    )
+    s"scalatags_${Config.scalaMainVersion}-0.5.4.jar")
 
   val repoSJSRE = """([^ %]+) *%%% *([^ %]+) *% *([^ %]+)""".r
   val repoRE = """([^ %]+) *%% *([^ %]+) *% *([^ %]+)""".r
@@ -65,7 +64,7 @@ class Classpath(context: ServletContext) {
     val f = new File(Config.libCache, name)
     if (f.exists()) {
       log.info(s"Loading $name from ${Config.libCache}")
-        (name -> Files.readAllBytes(f.toPath)) 
+      (name -> Files.readAllBytes(f.toPath))
     } else {
       log.info(s"Loading $name from $uri")
       f.getParentFile.mkdirs()
@@ -81,9 +80,8 @@ class Classpath(context: ServletContext) {
 
   val commonLibraries = {
     log.info("Loading files...")
-    // load all external libs in parallel using spray-client
     val jarFiles = baseLibs.par.map { name =>
-      val stream = context.getResourceAsStream("/WEB-INF/lib/" + name)
+      val stream = context.getResourceAsStream(jarPath + name)
       log.debug(s"Loading resource $name")
       if (stream == null) {
         throw new Exception(s"Classpath loading failed, jar $name not found")
@@ -104,16 +102,6 @@ class Classpath(context: ServletContext) {
   }
 
   /**
-   * External libraries loaded from repository
-   */
-//  val extLibraries = {
-//    Config.extLibs.map {
-//      case (name, ref) =>
-//        (name -> loadExtLib(ref))
-//    }
-//  }
-
-  /**
    * The loaded files shaped for Scalac to use
    */
   def lib4compiler(name: String, bytes: Array[Byte]) = {
@@ -124,7 +112,7 @@ class Classpath(context: ServletContext) {
         try {
           in.getNextEntry
         } catch {
-          case e : Exception =>
+          case e: Exception =>
             null
         }
       })
@@ -133,7 +121,7 @@ class Classpath(context: ServletContext) {
         try {
           (x, Streamable.bytes(in))
         } catch {
-          case e : Exception =>
+          case e: Exception =>
             (x, Array[Byte]())
         }
       })
@@ -172,32 +160,28 @@ class Classpath(context: ServletContext) {
    * want to do something.
    */
   val commonLibraries4compiler = {
-    commonLibraries.map { case (name, data) => 
-          lib4compiler(name, data)
-          }
+    commonLibraries.map {
+      case (name, data) =>
+        lib4compiler(name, data)
+    }
   }
-//  val extLibraries4compiler =
-//    extLibraries.map { case (key, (name, data)) => key -> lib4compiler(name, data) }
 
   /**
    * In memory cache of all the jars used in the linker.
    */
   val commonLibraries4linker =
     commonLibraries.map { case (name, data) => lib4linker(name, data) }
-//  val extLibraries4linker =
-//    extLibraries.map { case (key, (name, data)) => key -> lib4linker(name, data) }
 
   val linkerCaches = mutable.Map.empty[List[String], Seq[IRFileCache.VirtualRelativeIRFile]]
 
   def compilerLibraries(extLibs: List[String]) = {
-    commonLibraries4compiler // ++ extLibs.flatMap(extLibraries4compiler.get)
+    commonLibraries4compiler
   }
 
   def linkerLibraries(extLibs: List[String]) = {
     linkerCaches.getOrElseUpdate(extLibs, {
-      val loadedJars = commonLibraries4linker // ++ extLibs.flatMap(extLibraries4linker.get)
       val cache = (new IRFileCache).newCache
-      val res = cache.cached(loadedJars)
+      val res = cache.cached(commonLibraries4linker)
       log.debug("Loaded scalaJSClassPath")
       res
     })

@@ -1,24 +1,20 @@
 Virtual Scala JS Compiler
 =========================
 
-This shows how to compile a Scala JS String to JavaScript. It also creates HTML from Scala.
-
-Environment
------------
-This is a Maven project with Google Flexible Environment with Java 8, Scala and 
-Web Servlets 3.1.
-
-Live
-----
-Check it out [here](https://scala-js-compiler.appspot.com/index.scala)
+This branch reads a Jar with Scala JS sources.
 
 Installation
 ------------
 Install Java 8, Maven 3.3 and Google Cloud. Important to have Python on path to 
 make Google Cloud to work!
 
-Run and Deploy
---------------
+Test
+----
 
-Use maven and run $ mvn gcloud:run or $ mvn gcloud:deploy. Make sure Python is on
-path!
+Make sure you have the following Jar files in src/test/resources (all are dependencies):
+
+* scala-library-2.11.8.jar
+* scala-reflect-2.11.8.jar
+* scalajs-dom_sjs0.6_2.11-0.9.0.jar
+* scalajs-library_2.11-0.6.9.jar
+* scalatags_2.11-0.5.4.jar
