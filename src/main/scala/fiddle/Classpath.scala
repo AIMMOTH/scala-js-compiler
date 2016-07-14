@@ -1,16 +1,18 @@
 package fiddle
 
-import java.io._
-import java.nio.file.Files
+import java.io.ByteArrayInputStream
 import java.util.zip.ZipInputStream
 
-import org.scalajs.core.tools.io._
-import org.slf4j.LoggerFactory
-
 import scala.collection.mutable
-import scala.concurrent.duration._
-import scala.concurrent.{ Await, Future }
-import scala.reflect.io.{ Streamable, VirtualDirectory }
+import scala.concurrent.duration.DurationInt
+import scala.reflect.io.Path.string2path
+import scala.reflect.io.Streamable
+import scala.reflect.io.VirtualDirectory
+
+import org.scalajs.core.tools.io.IRFileCache
+import org.scalajs.core.tools.io.MemVirtualBinaryFile
+import org.scalajs.core.tools.io.VirtualJarFile
+import org.slf4j.LoggerFactory
 
 object Classpath {
   
@@ -33,8 +35,7 @@ class Classpath(context: Class[_], relativeJarPath : String) {
     s"scala-library-${Config.scalaVersion}.jar",
     s"scala-reflect-${Config.scalaVersion}.jar",
     s"scalajs-library_${Config.scalaMainVersion}-${Config.scalaJSVersion}.jar",
-    s"scalajs-dom_sjs${Config.scalaJSMainVersion}_${Config.scalaMainVersion}-0.9.0.jar",
-    s"scalatags_${Config.scalaMainVersion}-0.5.4.jar"
+    s"scalajs-dom_sjs${Config.scalaJSMainVersion}_${Config.scalaMainVersion}-0.9.0.jar"
     )
 
   val repoSJSRE = """([^ %]+) *%%% *([^ %]+) *% *([^ %]+)""".r
@@ -93,12 +94,7 @@ class Classpath(context: Class[_], relativeJarPath : String) {
       })
       .takeWhile(_ != null)
       .map(x => {
-        try {
           (x, Streamable.bytes(in))
-        } catch {
-          case e : Exception =>
-            (x, Array[Byte]())
-        }
       })
 
     val dir = new VirtualDirectory(name, None)

@@ -23,6 +23,8 @@ import scala.tools.nsc.util.ClassPath.JavaContext
 import scala.tools.nsc.util._
 import scala.reflect.io.VirtualDirectory
 import scala.reflect.io.AbstractFile
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
   * Handles the interaction between scala-js-fiddle and
@@ -32,7 +34,6 @@ class Compiler(classPath: Classpath, env: String) { self =>
   
   val log = LoggerFactory.getLogger(getClass)
   val sjsLogger = new Log4jLogger()
-  val blacklist = Set("<init>")
   val extLibs = Config.environments.getOrElse(env, Nil)
 
   /**
@@ -112,19 +113,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
     (settings, reporter, vd, jCtx, jDirs)
   }
 
-  def getTemplate(template: String) = {
-    Config.templates.get(template) match {
-      case Some(t) => t
-      case None => throw new IllegalArgumentException(s"Invalid template $template")
-    }
-  }
-
-  def compile(templateId: String, src: String, logger: String => Unit = _ => ()): Option[Seq[VirtualScalaJSIRFile]] = {
-
-    val template = getTemplate(templateId)
-    val fullSource = template.fullSource(src)
-    log.debug("Compiling source:\n" + fullSource)
-    val singleFile = makeFile(fullSource.getBytes("UTF-8"))
+  def compile(src: CompileActor.Source, logger: String => Unit = _ => ()): Option[Seq[VirtualScalaJSIRFile]] = {
 
     val (settings, reporter, vd, jCtx, jDirs) = initGlobalBits(logger)
     val compiler = new nsc.Global(settings, reporter) with InMemoryGlobal {
@@ -140,7 +129,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
     }
 
     val run = new compiler.Run()
-    run.compileFiles(List(singleFile))
+    run.compileFiles(src)
 
     if (vd.iterator.isEmpty)
       None

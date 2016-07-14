@@ -1,13 +1,12 @@
 package fiddle
 
-import org.scalajs.core.tools.io.VirtualScalaJSIRFile
-
 import scala.collection.mutable
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import scala.util.Try
-import java.util.logging.Logger
+import scala.reflect.io.VirtualFile
+
+import org.scalajs.core.tools.io.VirtualScalaJSIRFile
 import org.slf4j.LoggerFactory
+
+import fiddle.Pipeable
 
 sealed abstract class Optimizer
 
@@ -21,7 +20,13 @@ case class CompileSource(envId: String, templateId: String, sourceCode: String, 
 
 case class CompleteSource(envId: String, templateId: String, sourceCode: String, flag: String, offset: Int)
 
-class CompileActor(classPath: Classpath, envId: String, templateId: String, sourceCode: String, optimizer: Optimizer) {
+object CompileActor {
+  
+  type Source = List[VirtualFile]
+
+}
+
+class CompileActor(classPath: Classpath, envId: String, sourceCode: CompileActor.Source, optimizer: Optimizer) {
 
   val log = LoggerFactory.getLogger(getClass)
   val compiler = new Compiler(classPath, envId)
@@ -33,13 +38,13 @@ class CompileActor(classPath: Classpath, envId: String, templateId: String, sour
   val errorStart = """^\w+.scala:(\d+): *(\w+): *(.*)""".r
   val errorEnd = """ *\^ *$""".r
 
-  def parseErrors(preRows: Int, log: String): Seq[EditorAnnotation] = {
+  def parseErrors(log: String): Seq[EditorAnnotation] = {
     val lines = log.split('\n').toSeq.map(_.replaceAll("[\\n\\r]", ""))
     val (annotations, _) = lines.foldLeft((Seq.empty[EditorAnnotation], Option.empty[EditorAnnotation])) {
       case ((acc, current), line) =>
         line match {
           case errorStart(lineNo, severity, msg) =>
-            val ann = EditorAnnotation(lineNo.toInt - preRows - 1, 0, Seq(msg), severity)
+            val ann = EditorAnnotation(lineNo.toInt, 0, Seq(msg), severity)
             (acc, Some(ann))
           case errorEnd() if current.isDefined =>
             val ann = current.map(ann => ann.copy(col = line.length, text = ann.text :+ line)).get
@@ -52,22 +57,18 @@ class CompileActor(classPath: Classpath, envId: String, templateId: String, sour
   }
 
   def doCompile = {
-    compile(compiler, templateId, sourceCode, _ |> opt |> compiler.export)
+    compile(compiler, sourceCode, _ |> opt |> compiler.export)
   }
 
-  private def compile(compiler: Compiler, templateId: String, code: String, processor: Seq[VirtualScalaJSIRFile] => String): CompilerResponse = {
-    println(s"Using template $templateId")
+  private def compile(compiler: Compiler, code: CompileActor.Source, processor: Seq[VirtualScalaJSIRFile] => String): CompilerResponse = {
     val output = mutable.Buffer.empty[String]
 
-    val res = compiler.compile(templateId, code, output.append(_))
+    val res = compiler.compile(code, output.append(_))
     if (output.nonEmpty)
       println(s"Compiler errors: $output")
-    val template = compiler.getTemplate(templateId)
-
-    val preRows = template.pre.count(_ == '\n')
+      
     val logSpam = output.mkString
-    log.debug(s"preRows:$preRows")
     log.debug(s"logSpam:$logSpam")
-    CompilerResponse(res.map(processor), parseErrors(preRows, logSpam), logSpam)
+    CompilerResponse(res.map(processor), parseErrors(logSpam), logSpam)
   }
 }
