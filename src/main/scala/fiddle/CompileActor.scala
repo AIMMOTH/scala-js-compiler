@@ -6,7 +6,6 @@ import scala.collection.mutable
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Try
-import javax.servlet.ServletContext
 import java.util.logging.Logger
 import org.slf4j.LoggerFactory
 

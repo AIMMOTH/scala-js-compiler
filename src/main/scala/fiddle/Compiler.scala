@@ -2,14 +2,12 @@ package fiddle
 
 import java.io.{PrintWriter, Writer}
 
-//import akka.util.ByteString
 import org.scalajs.core.tools.io._
 import org.scalajs.core.tools.linker.Linker
 import org.scalajs.core.tools.logging._
 import org.scalajs.core.tools.sem.Semantics
 import org.slf4j.LoggerFactory
 
-//import scala.async.Async.async
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,7 +21,6 @@ import scala.tools.nsc.reporters.{ConsoleReporter, StoreReporter}
 import scala.tools.nsc.typechecker.Analyzer
 import scala.tools.nsc.util.ClassPath.JavaContext
 import scala.tools.nsc.util._
-import javax.servlet.ServletContext
 import scala.reflect.io.VirtualDirectory
 import scala.reflect.io.AbstractFile
 
