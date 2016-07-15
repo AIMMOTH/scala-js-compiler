@@ -31,14 +31,14 @@ object HelloWorld extends js.JSApp {
   @Test
   def testCompilerFast : Unit = {
     val compiler = new ScalaJsCompiler
-    val script = compiler.compileScalaJsString(source, Optimizer.Fast, "../")
+    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Fast, "")
     println(s"Fast script size ${script.length}B")
   }    
     
   @Test
   def testCompilerFull : Unit = {
     val compiler = new ScalaJsCompiler
-    val script = compiler.compileScalaJsString(source, Optimizer.Full, "../")
+    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Full, "")
     println(s"Full script size ${script.length}B")
   }
   
@@ -56,7 +56,7 @@ object HelloWorld extends js.JSApp {
       """
     try {
       val compiler = new ScalaJsCompiler
-      compiler.compileScalaJsString(bug, Optimizer.Fast, "../")
+      compiler.compileScalaJsString(getClass.getClassLoader, bug, Optimizer.Fast, "")
     } catch {
       case e : Throwable =>
         println(e.getMessage)

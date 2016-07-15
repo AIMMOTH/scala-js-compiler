@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory
 
 object Classpath {
   
-  private lazy val build : (Class[_], String) => Classpath = (klass, relativeJarPath) => new Classpath(klass, relativeJarPath)
+  private lazy val build : (ClassLoader, String) => Classpath = (klass, relativeJarPath) => new Classpath(klass, relativeJarPath)
   
-  def apply(klass : Class[_], relativeJarPath : String) = build(klass, relativeJarPath)
+  def apply(klass : ClassLoader, relativeJarPath : String) = build(klass, relativeJarPath)
 }
 
 /**
@@ -26,7 +26,7 @@ object Classpath {
  * compiler and re-shapes it into the correct structure to satisfy
  * scala-compile and scalajs-tools
  */
-class Classpath(context: Class[_], relativeJarPath : String) {
+class Classpath(context: ClassLoader, relativeJarPath : String) {
 
   val log = LoggerFactory.getLogger(getClass)
   val timeout = 60.seconds
@@ -60,7 +60,7 @@ class Classpath(context: Class[_], relativeJarPath : String) {
       val stream = context.getResourceAsStream(relativeJarPath + name)
       log.debug(s"Loading resource $name")
       if (stream == null) {
-        throw new Exception(s"Classpath loading failed, jar $name not found at '${context.getResource(".")}' with realtive JAR path '$relativeJarPath'")
+        throw new Exception(s"Classpath loading failed, jar $name not found at '${context.getResource("")}' with relative JAR path '$relativeJarPath'")
       }
       name -> Streamable.bytes(stream)
     }.seq

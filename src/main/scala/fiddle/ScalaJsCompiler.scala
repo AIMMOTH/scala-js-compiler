@@ -9,14 +9,14 @@ class ScalaJsCompiler {
 
   val log = LoggerFactory.getLogger(getClass)
 
-  def compileScalaJsString(source: String, optimizer: Optimizer, relativeJarPath: String): String = {
-    compileScalaJsStrings(List(source), optimizer, relativeJarPath)
+  def compileScalaJsString(context : ClassLoader, source: String, optimizer: Optimizer, relativeJarPath: String): String = {
+    compileScalaJsStrings(context, List(source), optimizer, relativeJarPath)
   }
   
   /**
    * String with Scala JS code
    */
-  def compileScalaJsStrings(source: List[String], optimizer: Optimizer, relativeJarPath: String): String = {
+  def compileScalaJsStrings(context : ClassLoader, source: List[String], optimizer: Optimizer, relativeJarPath: String): String = {
     /**
      * Converts a bunch of bytes into Scalac's weird VirtualFile class
      */
@@ -30,7 +30,7 @@ class ScalaJsCompiler {
 
     val files = source.map(s => makeFile(s.getBytes("UTF-8")))
 
-    val actor = new CompileActor(Classpath(getClass, relativeJarPath), "scalatags", files, optimizer)
+    val actor = new CompileActor(Classpath(context, relativeJarPath), "scalatags", files, optimizer)
     actor.doCompile match {
       case cr if cr.jsCode.isDefined =>
         cr.jsCode.get
