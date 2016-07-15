@@ -6,8 +6,8 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <groupId>io.cenet.compiler</groupId>
-  <artifactId>scala-js-compiler</artifactId>
+  <groupId>io.cenet.compiler.servlet</groupId>
+  <artifactId>servlet-scalajs-compiler</artifactId>
 
   <properties>
     <scala.version>2.11.8</scala.version>
@@ -30,6 +30,13 @@
   </prerequisites>
 
   <dependencies>
+    <!-- To add ServletContext -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    
     <!-- Scala -->
     <dependency>
       <groupId>org.scala-lang</groupId>
@@ -150,11 +157,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
-<!--         <configuration> -->
-<!--           <archive> -->
-<!--             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile> -->
-<!--           </archive> -->
-<!--         </configuration> -->
+        <!-- <configuration> -->
+        <!-- <archive> -->
+        <!-- <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile> -->
+        <!-- </archive> -->
+        <!-- </configuration> -->
       </plugin>
     </plugins>
   </build>

@@ -4,19 +4,20 @@ import scala.language.postfixOps
 import scala.reflect.io.VirtualFile
 
 import org.slf4j.LoggerFactory
+import javax.servlet.ServletContext
 
 class ScalaJsCompiler {
 
   val log = LoggerFactory.getLogger(getClass)
 
-  def compileScalaJsString(context : ClassLoader, source: String, optimizer: Optimizer, relativeJarPath: String): String = {
+  def compileScalaJsString(context : ServletContext, source: String, optimizer: Optimizer, relativeJarPath: String): String = {
     compileScalaJsStrings(context, List(source), optimizer, relativeJarPath)
   }
   
   /**
    * String with Scala JS code
    */
-  def compileScalaJsStrings(context : ClassLoader, source: List[String], optimizer: Optimizer, relativeJarPath: String): String = {
+  def compileScalaJsStrings(context : ServletContext, source: List[String], optimizer: Optimizer, relativeJarPath: String): String = {
     /**
      * Converts a bunch of bytes into Scalac's weird VirtualFile class
      */
