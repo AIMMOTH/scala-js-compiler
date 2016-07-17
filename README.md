@@ -6,6 +6,10 @@ Using it Live
 -------------
 If this compiler is used live, use it as a dependency and make sure you find the dependency JAR files with a relative path. Usually it's something like "/WEB-INF/lib/". Check out the "web-demo" branch for a live demo.
 
+Class Loader
+------------
+This Scala JS Compiler uses a ClassLoader. If you want to use ServletContext, switch to branch "servlet-compiler".
+
 Test
 ----
 Make sure you have the following JAR files in 'src/test/resources' (they are all dependencies):
