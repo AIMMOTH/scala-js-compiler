@@ -61,7 +61,7 @@ class Classpath(context: ServletContext, relativeJarPath : String) {
       val stream = context.getResourceAsStream(relativeJarPath + name)
       log.debug(s"Loading resource $name")
       if (stream == null) {
-        throw new Exception(s"Classpath loading failed, jar $name not found at '${context.getResource("")}' with relative JAR path '$relativeJarPath'")
+        throw new Exception(s"Classpath loading failed, jar $name not found at '${context.getResource("/")}' with relative JAR path '$relativeJarPath'")
       }
       name -> Streamable.bytes(stream)
     }.seq
