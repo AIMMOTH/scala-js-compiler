@@ -4,10 +4,8 @@ import java.util.Properties
 
 object Config {
   protected val versionProps = new Properties()
-  versionProps.setProperty("version", "1.0.0-SNAPSHOT")
   versionProps.setProperty("scalaVersion", "2.11.8")
-  versionProps.setProperty("scalaJSVersion", "0.6.9")
-  versionProps.setProperty("aceVersion", "1.2.2")
+  versionProps.setProperty("scalaJSVersion", "0.6.10")
 
   val interface = "0.0.0.0"
   val port = 8080
@@ -21,7 +19,6 @@ object Config {
 
   val libCache = "target/extlibs"
 
-  val version = versionProps.getProperty("version")
   val scalaVersion = versionProps.getProperty("scalaVersion")
   val scalaMainVersion = scalaVersion.split('.').take(2).mkString(".")
   val scalaJSVersion = versionProps.getProperty("scalaJSVersion")
