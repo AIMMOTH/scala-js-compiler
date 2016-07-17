@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.scala-js</groupId>
       <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
-      <version>0.9.0</version>
+      <version>0.9.1</version>
     </dependency>
 
     <!-- Logging -->
