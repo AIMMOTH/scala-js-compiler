@@ -35,8 +35,7 @@ class Classpath(context: ServletContext, relativeJarPath : String, additionalLib
   val baseLibs = Seq(
     s"scala-library-${Config.scalaVersion}.jar",
     s"scala-reflect-${Config.scalaVersion}.jar",
-    s"scalajs-library_${Config.scalaMainVersion}-${Config.scalaJSVersion}.jar",
-    s"scalajs-dom_sjs${Config.scalaJSMainVersion}_${Config.scalaMainVersion}-0.9.0.jar"
+    s"scalajs-library_${Config.scalaMainVersion}-${Config.scalaJSVersion}.jar"
     )
 
   val repoSJSRE = """([^ %]+) *%%% *([^ %]+) *% *([^ %]+)""".r
