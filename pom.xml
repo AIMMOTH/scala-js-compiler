@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <groupId>io.cenet.compiler</groupId>
+  <groupId>com.github.aimmoth.compiler</groupId>
   <artifactId>scala-js-compiler</artifactId>
 
   <properties>
@@ -58,11 +58,11 @@
       <artifactId>scalajs-tools_2.11</artifactId>
       <version>${scala.js.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.scala-js</groupId>
-      <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
-      <version>0.9.1</version>
-    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>org.scala-js</groupId> -->
+<!--       <artifactId>scalajs-dom_sjs0.6_2.11</artifactId> -->
+<!--       <version>0.9.1</version> -->
+<!--     </dependency> -->
 
     <!-- Logging -->
     <dependency>
