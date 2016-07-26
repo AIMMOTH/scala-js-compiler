@@ -6,8 +6,8 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <groupId>com.github.aimmoth.compiler.servlet</groupId>
-  <artifactId>servlet-scalajs-compiler</artifactId>
+  <groupId>com.github.aimmoth.compiler.jetty</groupId>
+  <artifactId>jetty-scalajs-compiler</artifactId>
 
   <properties>
     <scala.version>2.11.8</scala.version>
@@ -16,7 +16,7 @@
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
   </properties>
 
-  <description>Compiles list of Strings with ScalaJS code to JavaScript</description>
+  <description>Compiles list of Strings with ScalaJS code to JavaScript. This version uses SLF4J Logging compatible with Jetty.</description>
 
   <developers>
     <developer>

@@ -6,35 +6,20 @@ Using it Live
 -------------
 If this compiler is used live, use it as a dependency and make sure you find the dependency JAR files with a relative path. Usually it's something like "/WEB-INF/lib/". Check out the "web-demo" branch for a live demo.
 
-Class Loader
-------------
-This Scala JS Compiler uses a ClassLoader. If you want to use ServletContext, switch to branch "servlet-compiler".
-
-Test
-----
-Make sure you have the following JAR files in 'src/test/resources' (they are all dependencies):
- * scalajs-dom_sjs0.6_2.11-0.9.0.jar
- * scalajs-library_2.11-0.6.9.jar
- * scala-library-2.11.8.jar
- * scala-reflect-2.11.8.jar
- * scalatags_2.11-0.5.4.jar
+Jetty
+-----
+This Scala JS Compiler uses ServletContext to load classes and SLF4J for logging.
 
 Environment
 -----------
-This is a Maven project with Google Flexible Environment with Java 8, Scala and 
+This is a Maven project with Google Flexible Environment with Java 8, Scala 2.11 and 
 Web Servlets 3.1.
-
-Live
-----
-Check it out [here](https://scala-js-compiler.appspot.com/index.scala). It uses the branch [web-demo](https://github.com/AIMMOTH/scala-js-compiler/tree/web-demo).
 
 Installation
 ------------
-Install Java 8, Maven 3.3 and Google Cloud. Important to have Python on path to 
-make Google Cloud to work!
+Install Java 8, Scala 2.11 and Maven 3.3.
 
 Run and Deploy
 --------------
 
-Use maven and run $ mvn gcloud:run or $ mvn gcloud:deploy. Make sure Python is on
-path!
+Use maven to build with $ mvn clean package install 
