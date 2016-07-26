@@ -3,12 +3,12 @@ package fiddle
 import scala.language.postfixOps
 import scala.reflect.io.VirtualFile
 
-import org.slf4j.LoggerFactory
 import javax.servlet.ServletContext
+import java.util.logging.Logger
 
 class ScalaJsCompiler {
 
-  val log = LoggerFactory.getLogger(getClass)
+  val log = Logger.getLogger(getClass.getName)
 
   def compileScalaJsString(context : ServletContext, source: String, optimizer: Optimizer, relativeJarPath: String, additionalLibs : List[String] = Nil): String = {
     compileScalaJsStrings(context, List(source), optimizer, relativeJarPath)

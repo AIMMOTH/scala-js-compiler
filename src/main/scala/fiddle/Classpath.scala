@@ -12,8 +12,8 @@ import scala.reflect.io.VirtualDirectory
 import org.scalajs.core.tools.io.IRFileCache
 import org.scalajs.core.tools.io.MemVirtualBinaryFile
 import org.scalajs.core.tools.io.VirtualJarFile
-import org.slf4j.LoggerFactory
 import javax.servlet.ServletContext
+import java.util.logging.Logger
 
 object Classpath {
   
@@ -29,7 +29,7 @@ object Classpath {
  */
 class Classpath(context: ServletContext, relativeJarPath : String, additionalLibs : List[String] = Nil) {
 
-  val log = LoggerFactory.getLogger(getClass)
+  val log = Logger.getLogger(getClass.getName)
   val timeout = 60.seconds
 
   val baseLibs = Seq(
@@ -58,7 +58,7 @@ class Classpath(context: ServletContext, relativeJarPath : String, additionalLib
     // load all external libs in parallel using spray-client
     val jarFiles = (additionalLibs ++ baseLibs).par.map { name =>
       val stream = context.getResourceAsStream(relativeJarPath + name)
-      log.debug(s"Loading resource $name")
+      log.fine(s"Loading resource $name")
       if (stream == null) {
         throw new Exception(s"Classpath loading failed, jar $name not found at '${context.getResource("/")}' with relative JAR path '$relativeJarPath'")
       }
@@ -153,7 +153,7 @@ class Classpath(context: ServletContext, relativeJarPath : String, additionalLib
       val loadedJars = commonLibraries4linker
       val cache = (new IRFileCache).newCache
       val res = cache.cached(loadedJars)
-      log.debug("Loaded scalaJSClassPath")
+      log.fine("Loaded scalaJSClassPath")
       res
     })
   }

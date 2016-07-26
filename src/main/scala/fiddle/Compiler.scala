@@ -6,7 +6,6 @@ import org.scalajs.core.tools.io._
 import org.scalajs.core.tools.linker.Linker
 import org.scalajs.core.tools.logging._
 import org.scalajs.core.tools.sem.Semantics
-import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,8 +31,8 @@ import java.nio.file.Paths
   */
 class Compiler(classPath: Classpath, env: String) { self =>
   
-  val log = LoggerFactory.getLogger(getClass)
-  val sjsLogger = new Log4jLogger()
+  val log = java.util.logging.Logger.getLogger(getClass.getName)
+  val sjsLogger = new Log4jLogger(this)
   val extLibs = Config.environments.getOrElse(env, Nil)
 
   /**
@@ -51,7 +50,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
     new ClassLoader(this.getClass.getClassLoader) {
       val classCache = mutable.Map.empty[String, Option[Class[_]]]
       override def findClass(name: String): Class[_] = {
-        log.debug("Looking for Class " + name)
+        log.fine("Looking for Class " + name)
         val fileName = name.replace('.', '/') + ".class"
         val res = classCache.getOrElseUpdate(
           name,
@@ -64,10 +63,10 @@ class Compiler(classPath: Classpath, env: String) { self =>
         )
         res match {
           case None =>
-            log.debug("Not Found Class " + name)
+            log.fine("Not Found Class " + name)
             throw new ClassNotFoundException()
           case Some(cls) =>
-            log.debug("Found Class " + name)
+            log.fine("Found Class " + name)
             cls
         }
       }
@@ -150,7 +149,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
   }
 
   def export(output: VirtualJSFile): String = {
-    log.debug(s"output content: ${output.content}")
+    log.fine(s"output content: ${output.content}")
     output.content
   }
 
@@ -176,17 +175,17 @@ class Compiler(classPath: Classpath, env: String) { self =>
     output
   }
 
-  class Log4jLogger(minLevel: Level = Level.Debug) extends Logger {
+  class Log4jLogger(self : Compiler, minLevel: Level = Level.Debug) extends org.scalajs.core.tools.logging.Logger {
 
     def log(level: Level, message: =>String): Unit = if (level >= minLevel) {
       if (level == Level.Warn || level == Level.Error)
-        self.log.error(message)
+        self.log.warning(message)
       else
-        self.log.debug(message)
+        self.log.info(message)
     }
     def success(message: => String): Unit = info(message)
     def trace(t: => Throwable): Unit = {
-      self.log.error("Compiling error", t)
+      self.log.log(java.util.logging.Level.SEVERE, "Compiling error", t)
     }
   }
 

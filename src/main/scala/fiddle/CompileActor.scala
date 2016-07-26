@@ -4,9 +4,8 @@ import scala.collection.mutable
 import scala.reflect.io.VirtualFile
 
 import org.scalajs.core.tools.io.VirtualScalaJSIRFile
-import org.slf4j.LoggerFactory
 
-import fiddle.Pipeable
+import java.util.logging.Logger
 
 sealed abstract class Optimizer
 
@@ -28,7 +27,7 @@ object CompileActor {
 
 class CompileActor(classPath: Classpath, envId: String, sourceCode: CompileActor.Source, optimizer: Optimizer) {
 
-  val log = LoggerFactory.getLogger(getClass)
+  val log = Logger.getLogger(getClass.getName)
   val compiler = new Compiler(classPath, envId)
   val opt = optimizer match {
     case Optimizer.Fast => compiler.fastOpt _
@@ -68,7 +67,7 @@ class CompileActor(classPath: Classpath, envId: String, sourceCode: CompileActor
       println(s"Compiler errors: $output")
       
     val logSpam = output.mkString
-    log.debug(s"logSpam:$logSpam")
+    log.fine(s"logSpam:$logSpam")
     CompilerResponse(res.map(processor), parseErrors(logSpam), logSpam)
   }
 }
