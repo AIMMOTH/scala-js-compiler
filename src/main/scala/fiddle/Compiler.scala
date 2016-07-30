@@ -135,8 +135,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
       None
     else {
       def findSjsirFiles(vd : AbstractFile) : Iterator[AbstractFile] = {
-        println(vd.iterator.toList.map(_.name).mkString("\n"))
-        (vd.iterator.filter(_.isDirectory), vd.iterator.filter(file => file.name.endsWith(".sjsir") || file.name.endsWith(".map"))) match {
+        (vd.iterator.filter(_.isDirectory), vd.iterator.filter(_.name.endsWith(".sjsir"))) match {
           case (folders, sjFiles) =>
           sjFiles ++ folders.flatMap(findSjsirFiles)
         }
