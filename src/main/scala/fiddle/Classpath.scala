@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory
 
 object Classpath {
   
-  private lazy val build : (ClassLoader, String) => Classpath = (klass, relativeJarPath) => new Classpath(klass, relativeJarPath)
+  private lazy val build : (ClassLoader, String, List[String]) => Classpath = (klass, relativeJarPath, additionalLibs) => new Classpath(klass, relativeJarPath, additionalLibs)
   
-  def apply(klass : ClassLoader, relativeJarPath : String) = build(klass, relativeJarPath)
+  def apply(klass : ClassLoader, relativeJarPath : String, additionalLibs : List[String] = Nil) = build(klass, relativeJarPath, additionalLibs)
 }
 
 /**
@@ -26,7 +26,7 @@ object Classpath {
  * compiler and re-shapes it into the correct structure to satisfy
  * scala-compile and scalajs-tools
  */
-class Classpath(context: ClassLoader, relativeJarPath : String) {
+class Classpath(context: ClassLoader, relativeJarPath : String, additionalLibs : List[String] = Nil) {
 
   val log = LoggerFactory.getLogger(getClass)
   val timeout = 60.seconds
@@ -55,7 +55,7 @@ class Classpath(context: ClassLoader, relativeJarPath : String) {
   val commonLibraries = {
     log.info("Loading files...")
     // load all external libs in parallel using spray-client
-    val jarFiles = baseLibs.par.map { name =>
+    val jarFiles = (additionalLibs ++ baseLibs).par.map { name =>
       val stream = context.getResourceAsStream(relativeJarPath + name)
       log.debug(s"Loading resource $name")
       if (stream == null) {

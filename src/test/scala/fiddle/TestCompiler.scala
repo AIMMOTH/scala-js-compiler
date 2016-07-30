@@ -9,6 +9,7 @@ class TestCompiler {
 package example
 
 import scala.scalajs.js
+import org.scalajs.dom
 import js.annotation._
 
 @JSExport
@@ -22,24 +23,29 @@ object HelloWorld extends js.JSApp {
   def main(): Unit = {
     println("Hello world!")
   }
+  
+  def alerter(): Unit = {
+    dom.window.alert("Hello!")
+  }
 }
     """
     
   @Test
   def testCompilerFast : Unit = {
     val compiler = new ScalaJsCompiler
-    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Fast, "")
+    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Fast, "", List("scalajs-dom_sjs0.6_2.11-0.9.1.jar"))
+    println(script)
     println(s"Fast script size ${script.length}B")
   }    
     
-  @Test
+//  @Test
   def testCompilerFull : Unit = {
     val compiler = new ScalaJsCompiler
-    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Full, "")
+    val script = compiler.compileScalaJsString(getClass.getClassLoader, source, Optimizer.Full, "", List("scalajs-dom_sjs0.6_2.11-0.9.1.jar"))
     println(s"Full script size ${script.length}B")
   }
   
-  @Test
+//  @Test
   def testCompilationError : Unit = {
     val bug =
       """
