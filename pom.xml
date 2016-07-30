@@ -14,7 +14,7 @@
     <app.version>master</app.version>
     <appengine.version>1.9.38</appengine.version>
     <scala.version>2.11.8</scala.version>
-    <scala.js.version>0.6.9</scala.js.version>
+    <scala.js.version>0.6.11</scala.js.version>
     <gcloud.plugin.version>2.0.9.111.v20160525</gcloud.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
@@ -70,12 +70,12 @@
     <dependency>
       <groupId>com.lihaoyi</groupId>
       <artifactId>scalatags_2.11</artifactId>
-      <version>0.5.4</version>
+      <version>0.6.0</version>
     </dependency>
     <dependency>
       <groupId>org.scala-js</groupId>
       <artifactId>scalajs-dom_sjs0.6_2.11</artifactId>
-      <version>0.9.0</version>
+      <version>0.9.1</version>
     </dependency>
 
     <dependency>
