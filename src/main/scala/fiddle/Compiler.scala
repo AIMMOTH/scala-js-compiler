@@ -135,7 +135,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
       None
     else {
       def findSjsirFiles(vd : AbstractFile) : Iterator[AbstractFile] = {
-        (vd.iterator.filter(_.isDirectory), vd.iterator.filter(_.name.endsWith(".sjsir"))) match {
+        (vd.iterator.filter(_.isDirectory), vd.iterator.filter(file => file.name.endsWith(".sjsir") || file.name.endsWith(".map"))) match {
           case (folders, sjFiles) =>
           sjFiles ++ folders.flatMap(findSjsirFiles)
         }
@@ -168,7 +168,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     val linker = Linker(
       semantics = semantics,
-      withSourceMap = false,
+      withSourceMap = true,
       useClosureCompiler = fullOpt)
 
     val output = WritableMemVirtualJSFile("output.js")
