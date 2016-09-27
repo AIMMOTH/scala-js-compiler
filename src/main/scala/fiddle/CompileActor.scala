@@ -6,8 +6,6 @@ import scala.reflect.io.VirtualFile
 import org.scalajs.core.tools.io.VirtualScalaJSIRFile
 import org.slf4j.LoggerFactory
 
-import fiddle.Pipeable
-
 sealed abstract class Optimizer
 
 object Optimizer {

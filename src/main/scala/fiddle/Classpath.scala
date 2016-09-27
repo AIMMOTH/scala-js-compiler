@@ -30,28 +30,12 @@ object Classpath {
 class Classpath(context: ServletContext, relativeJarPath : String, additionalLibs : List[String] = Nil) {
 
   val log = LoggerFactory.getLogger(getClass)
-  val timeout = 60.seconds
 
   val baseLibs = Seq(
     s"scala-library-${Config.scalaVersion}.jar",
     s"scala-reflect-${Config.scalaVersion}.jar",
     s"scalajs-library_${Config.scalaMainVersion}-${Config.scalaJSVersion}.jar"
     )
-
-  val repoSJSRE = """([^ %]+) *%%% *([^ %]+) *% *([^ %]+)""".r
-  val repoRE = """([^ %]+) *%% *([^ %]+) *% *([^ %]+)""".r
-  val repoBase = "https://repo1.maven.org/maven2"
-  val sjsVersion = s"_sjs${Config.scalaJSMainVersion}_${Config.scalaMainVersion}"
-
-  def buildRepoUri(ref: String) = {
-    ref match {
-      case repoSJSRE(group, artifact, version) =>
-        s"$repoBase/${group.replace('.', '/')}/$artifact$sjsVersion/$version/$artifact$sjsVersion-$version.jar"
-      case repoRE(group, artifact, version) =>
-        s"$repoBase/${group.replace('.', '/')}/${artifact}_${Config.scalaMainVersion}/$version/${artifact}_${Config.scalaMainVersion}-$version.jar"
-      case _ => ref
-    }
-  }
 
   val commonLibraries = {
     log.info("Loading files...")
