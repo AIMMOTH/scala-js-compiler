@@ -1,4 +1,4 @@
-package fiddle
+package com.github.aimmoth.fiddle
 
 import scala.language.postfixOps
 import scala.reflect.io.VirtualFile

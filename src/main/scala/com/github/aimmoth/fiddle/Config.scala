@@ -1,4 +1,4 @@
-package fiddle
+package com.github.aimmoth.fiddle
 
 import java.util.Properties
 

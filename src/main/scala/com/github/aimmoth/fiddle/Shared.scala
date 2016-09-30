@@ -1,4 +1,4 @@
-package fiddle
+package com.github.aimmoth.fiddle
 
 case class EditorAnnotation(row: Int, col: Int, text: Seq[String], tpe: String)
 

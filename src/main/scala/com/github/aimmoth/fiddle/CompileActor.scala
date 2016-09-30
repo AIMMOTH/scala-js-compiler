@@ -1,4 +1,4 @@
-package fiddle
+package com.github.aimmoth.fiddle
 
 import scala.collection.mutable
 import scala.reflect.io.VirtualFile
@@ -54,6 +54,10 @@ class CompileActor(classPath: Classpath, envId: String, sourceCode: CompileActor
     annotations
   }
 
+  implicit class Pipeable[T](t: T){
+    def |>[V](f: T => V): V = f(t)
+  }
+    
   def doCompile = {
     compile(compiler, sourceCode, _ |> opt |> compiler.export)
   }
