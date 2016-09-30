@@ -9,8 +9,6 @@ object Config {
 
   val environments = Map("default" -> List("dom", "scalatags", "async"))
 
-  val extJS = List("https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js")
-
   val libCache = "target/extlibs"
 
   val scalaVersion = versionProps.getProperty("scalaVersion")
