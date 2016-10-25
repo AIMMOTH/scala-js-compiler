@@ -168,7 +168,7 @@ class Compiler(classPath: Classpath, env: String) { self =>
 
     val linker = Linker(
       semantics = semantics,
-      withSourceMap = false,
+      withSourceMap = true,
       useClosureCompiler = fullOpt)
 
     val output = WritableMemVirtualJSFile("output.js")

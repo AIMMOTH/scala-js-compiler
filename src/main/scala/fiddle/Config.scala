@@ -5,7 +5,7 @@ import java.util.Properties
 object Config {
   protected val versionProps = new Properties()
   versionProps.setProperty("scalaVersion", "2.11.8")
-  versionProps.setProperty("scalaJSVersion", "0.6.10")
+  versionProps.setProperty("scalaJSVersion", "0.6.11")
 
   val interface = "0.0.0.0"
   val port = 8080
