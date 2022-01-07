@@ -5,8 +5,5 @@
 *.bat
 nbactions.xml
 /.settings/
-/eclipse-launch-profiles/
-/src/main/webapp/WEB-INF/quickstart-web.xml
-/src/main/webapp/WEB-INF/classes/
-/src/main/webapp/WEB-INF/lib/
 /target/
+/.idea/
