@@ -34,17 +34,6 @@ class Compiler(classPath: Classpath, minLevel: JsLevel = JsLevel.Debug) { self =
   val sjsLogger = new SjLogger(minLevel)
   val extLibs = Nil
 
-  /**
-    * Converts a bunch of bytes into Scalac's weird VirtualFile class
-    */
-  def makeFile(src: Array[Byte]) = {
-    val singleFile = new io.VirtualFile("ScalaFiddle.scala")
-    val output = singleFile.output
-    output.write(src)
-    output.close()
-    singleFile
-  }
-
   def inMemClassloader = {
     new ClassLoader(this.getClass.getClassLoader) {
       val classCache = mutable.Map.empty[String, Option[Class[_]]]

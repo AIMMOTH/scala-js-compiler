@@ -16,11 +16,24 @@ This compiler is excellent to use for a backend server compiling JavaScript on r
     @WebListener
     class WebServletContextListener extends ServletContextListener {
     
+        val scalaJsCode =
+            """
+              |package tutorial.webapp
+              |
+              |object TutorialApp {
+              |  def main(args: Array[String]): Unit = {
+              |    println("Hello world!")
+              |  }
+              |}
+              |""".stripMargin
+              
         def contextInitialized(contextEvent: ServletContextEvent): Unit = {
+            val scalaJsFile = ScalaJsFile("Filename", scalaJsSource)
+            
             val loader: (String => InputStream) = (path) => contextEvent.getServletContext.getResourceAsStream(path)
             
             val javascript = ScalaJsCompiler().init(loader, "/WEB-INF/lib/")
-                .compileScalaJsUtf8StringFast(scalaJsCode)
+                .compileScalaJsUtf8StringFast(scalaJsFile)
         }
     }
 ```
@@ -30,6 +43,17 @@ One trick is to put all ScalaJS source in **/src/main/webapp/** to make it avail
 ### Full Example
 This example is using a loader that reads local files.
 ```
+    val scalaJsCode =
+        """
+          |package tutorial.webapp
+          |
+          |object TutorialApp {
+          |  def main(args: Array[String]): Unit = {
+          |    println("Hello world!")
+          |  }
+          |}
+          |""".stripMargin
+          
     val compiler = new ScalaJsCompiler
     
     val allJarsOnClassPathSeparated = System.getProperty("java.class.path")
@@ -47,11 +71,13 @@ This example is using a loader that reads local files.
     }
 
     val relativeJarPath = "" // We get full path from above and do not need a relative path
-    val additionalLibs = Set[String]() // We don't have any extra dependencies in this repository
+    val additionalLibs = Set[String]("scalajs-dom_sjs0.6_2.11.jar") // This JAR needs to be on classpath (check your Maven dependencies)
     val baseLibs = Seq("scala-library-2.11.12.jar", "scala-reflect-2.11.12.jar", "scalajs-library_2.11-0.6.33.jar") // Always needed for compilation
     compiler.init(loader, relativeJarPath, additionalLibs, baseLibs)
     
-    val javascript = compiler.compileScalaJsStrings(List(scalaJsCode), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
+    val scalaJsFile = ScalaJsFile("Filename", scalaJsSource)
+    
+    val javascript = compiler.compileScalaJsStrings(List(scalaJsFile), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
 ```
 
 ## Live

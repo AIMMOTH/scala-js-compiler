@@ -26,6 +26,7 @@ class ScalaJsCompiler {
   type CompilationResult = Either[ErrorLog, JavaScriptSource]
 
   def compileJarWithScalaJsSource(jarWithSource: ZipFile, optimizer: Optimizer, charsetName: String = "UTF-8") = {
+    log.fine("Reading JAR file")
     jarWithSource.entries match {
       case entries => 
         (new Iterator[ZipEntry] {
@@ -33,6 +34,7 @@ class ScalaJsCompiler {
           def hasNext = entries.hasMoreElements
         }).filter(entry => entry.getName.endsWith(".scala"))
         .map(entry => {
+          log.fine("Reading file " + entry.getName)
           Option(jarWithSource.getInputStream(entry))
             .map(Source.fromInputStream(_))
             .map(_.mkString)
@@ -104,6 +106,7 @@ class ScalaJsCompiler {
    * @param baseLibs Default is Seq("scala-library-2.11.12.jar", "scala-reflect-2.11.12.jar", "scalajs-library_2.11-0.6.33.jar")
    */
   def init(loader: (String) => InputStream, relativeJarPath: String = "", additionalLibs : Set[String] = Set(), baseLibs: Seq[String] = Seq("scala-library-2.11.12.jar", "scala-reflect-2.11.12.jar", "scalajs-library_2.11-0.6.33.jar")) = {
+    log.info("Initiating ...")
     classpath = Classpath(loader, relativeJarPath, baseLibs, additionalLibs)
     this
   }

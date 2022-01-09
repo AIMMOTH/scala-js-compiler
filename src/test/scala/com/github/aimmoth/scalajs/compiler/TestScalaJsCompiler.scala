@@ -68,6 +68,55 @@ class TestScalaJsCompiler {
     println("Javascript length:" + actual.length)
   }
 
+  @DisplayName("Initiate ScalaJsCompiler and compile simple code")
+  @Test
+  def test_multipleFiles = {
+    // Given
+    val compiler = createCompilerAndInit
+    val code2 = """
+                  |package tutorial.webapp
+                  |
+                  |class HelloClass {
+                  |  def hello(): Unit = {
+                  |    println("Hello world!")
+                  |  }
+                  |}
+                  |""".stripMargin
+    val file2 = ScalaJsFile("File2", code2)
+
+    // When
+    val actual = compiler.compileScalaJsStrings(List(scalaJsFile, file2), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
+
+    // Then
+    Assertions.assertTrue(actual.isRight)
+    println("JavaScript length:" + actual.right.get.length)
+  }
+
+  @DisplayName("Initiate ScalaJsCompiler and compile simple code")
+  @Test
+  def test_multipleFilesWithBug = {
+    // Given
+    val compiler = createCompilerAndInit
+    val filename2 = "File2"
+    val code2 = """
+                  |package tutorial.webapp
+                  |
+                  |class BUG HelloClass {
+                  |  def hello(): Unit = {
+                  |    println("Hello world!")
+                  |  }
+                  |}
+                  |""".stripMargin
+    val file2 = ScalaJsFile(filename2, code2)
+
+    // When
+    val actual = compiler.compileScalaJsStrings(List(scalaJsFile, file2), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
+
+    // Then
+    Assertions.assertTrue(actual.isLeft)
+    Assertions.assertTrue(actual.left.get.contains(filename2))
+  }
+
   private def createCompilerAndInit = {
     val allJarsOnClassPathSeparated = System.getProperty("java.class.path")
     val separator = System.getProperty("path.separator");
