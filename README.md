@@ -77,6 +77,10 @@ This example is using a loader that reads local files.
     
     val scalaJsFile = ScalaJsFile("Filename", scalaJsSource)
     
+    val fastCompilationNotMinimized = Optimizer.Fast
+    val charsetName = "UTF-8"
+    val compilerLoggingLevel = Level.Info
+  
     val javascript = compiler.compileScalaJsStrings(List(scalaJsFile), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
 ```
 
