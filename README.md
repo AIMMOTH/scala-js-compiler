@@ -2,7 +2,7 @@
 Compiles list of Strings with Scala JS code to a JavaScript.
 
 ## Environment
-This is a Maven JAR project with Java 8, Scala 2.11 and Scala JS 0.6
+This is a SBT project with Java 21, Scala 3.3.1 and Scala JS 1.12.0
 
 ## Using it
 Class ScalaJsCompiler uses method `init` to create `Classpath` with all necessary libraries loaded.
