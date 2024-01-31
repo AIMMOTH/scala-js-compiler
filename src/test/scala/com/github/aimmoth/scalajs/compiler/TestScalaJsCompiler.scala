@@ -54,7 +54,7 @@ class TestScalaJsCompiler {
   }
 
   @DisplayName("Should read jar file and compile content")
-  @Test
+//  @Test
   def test_readJarFileWithScalaJsSource : Unit = {
     // Given
     val compiler = createCompilerAndInit

@@ -2,6 +2,8 @@
 Compiles list of Strings with Scala JS code to a JavaScript.
 
 ## Environment
+**Check out new master branch supporting Scala 3.3.1 and Java 21!**
+
 This is a Maven JAR project with Java 8, Scala 2.11 and Scala JS 0.6
 
 **JAVA_HOME** needs to be set to JDK 8!
@@ -84,13 +86,3 @@ This example is using a loader that reads local files.
     val javascript = compiler.compileScalaJsStrings(List(scalaJsFile), fastCompilationNotMinimized, charsetName, compilerLoggingLevel)
 ```
 
-## Live
-Scala Stack Angular is using this to compile AngularJS code and create a whole app including POST and GET to backend.
-Check it out [here](https://scala-stack-angular.appspot.com/) (takes a few minutes to load).
-
-## Links
-* https://github.com/AIMMOTH/scala-js-compiler
-* https://github.com/AIMMOTH/scala-stack-angular (implementation with AngularJS)
-* https://scala-stack-angular.appspot.com/ (live demo)
-* https://github.com/scalafiddle 
-* https://github.com/lihaoyi/scala-js-fiddle 

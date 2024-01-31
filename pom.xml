@@ -4,12 +4,13 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 
 	<groupId>com.github.aimmoth.scalajs.compiler</groupId>
 	<artifactId>scalajs-compiler</artifactId>
 
 	<properties>
+		<java.version>8</java.version>
 		<scala.version>2.11.12</scala.version>
 		<scala.js.version>0.6.33</scala.js.version>
 
