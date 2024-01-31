@@ -35,3 +35,6 @@ This compiler is excellent to use for a backend server compiling JavaScript on r
 ```
 This is reading JAR-files in WEB-INF/lib and provided ScalaJS source.
 One trick is to put all ScalaJS source in **/src/main/webapp/** to make it available for the Servlet context.
+
+## Contributions
+Thanks to VirtusLab for upgrading this library!
