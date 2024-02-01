@@ -4,7 +4,7 @@ ThisBuild / scalaVersion := "3.3.1"
 val scalaJs211Version = "0.6.33"
 val scalaJs331Version = "1.12.0"
 
-organization := "com.virtuslab.scala3.scalajs.compiler.servlet"
+organization := "com.virtuslab.scala3.scalajs.compiler"
 name := "scala-js-compiler"
 version := "2.0.0-SNAPSHOT"
 
@@ -13,7 +13,6 @@ javacOptions ++= Seq("-source", "21", "-target", "21")
 lazy val scala_js_compiler_servlet = project
   .in(file("."))
   .settings(
-    libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.1.0",
     libraryDependencies ++= {
       if (scalaVersion.value == "3.3.1") Seq(
         "org.scala-js" % "scalajs-linker_2.13" % scalaJs331Version,
