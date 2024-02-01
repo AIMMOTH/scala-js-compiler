@@ -7,6 +7,9 @@ This is a SBT project with Java 21, Scala 3.3.1 and Scala JS 1.12.0
 ## Using it
 Class ScalaJsCompiler uses method `init` to create `Classpath` with all necessary libraries loaded.
 
+## Build it
+Use SBT to build a library. You can use `> sbt publishM2` to create a local Maven library.
+
 ### Simple Example using Servlet API
 This compiler is excellent to use for a backend server compiling JavaScript on request!
 ```

@@ -1,14 +1,12 @@
 package com.virtuslab.scala3.scalajs.compiler
 
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
-import scala.io.Source
-import scala.language.postfixOps
 import dotty.tools.io.VirtualFile
 
 import java.io.InputStream
 import java.util.logging.Logger
-import javax.servlet.ServletContext
+import java.util.zip.{ZipEntry, ZipFile}
+import scala.io.Source
+import scala.language.postfixOps
 
 case class ScalaJsFile(filename: String = "ScalaFiddle", source: String)
 

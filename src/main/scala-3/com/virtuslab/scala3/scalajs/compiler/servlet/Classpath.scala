@@ -1,31 +1,18 @@
 package com.virtuslab.scala3.scalajs.compiler
 
 
-import java.io.{ByteArrayInputStream, InputStream}
-import java.util.zip.ZipInputStream
-import scala.collection.mutable
-import scala.concurrent.duration.DurationInt
 import dotty.tools.io.Streamable
-import dotty.tools.io.VirtualDirectory
-
-import java.util.logging.Logger
-import org.scalajs.linker.interface.IRFileCache
 import org.scalajs.linker.StandardImpl
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
+import org.scalajs.linker.interface.IRFile
 import org.scalajs.linker.interface.unstable.IRContainerImpl
 import org.scalajs.linker.standard.MemIRFileImpl
 
-import scala.concurrent.Future
-import org.scalajs.linker.interface.IRFile
-import dotty.tools.dotc.config.PathResolver
-import dotty.tools.dotc.classpath.ClassPathFactory
-import dotty.tools.dotc.core.Contexts.Context
-import dotty.tools.dotc.core.Contexts.ContextBase
-
-import javax.servlet.ServletContext
+import java.io.{ByteArrayInputStream, InputStream}
+import java.util.logging.Logger
+import java.util.zip.ZipInputStream
+import scala.collection.mutable
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.duration.Duration
 
 object Classpath {
 
