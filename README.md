@@ -1,4 +1,8 @@
-# Scala JS Compiler
+    > Use Scala Stack JS Compiler instead. It's the same repository but with a new name. Link https://github.com/AIMMOTH/scala-stack-js-compiler 
+
+--- 
+
+# ~~Scala JS Compiler~~ 
 Compiles list of Strings with Scala JS code to a JavaScript.
 
 ## Environment
