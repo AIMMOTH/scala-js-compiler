@@ -1,4 +1,6 @@
-    > Use Scala Stack JS Compiler instead. It's the same repository but with a new name. Link https://github.com/AIMMOTH/scala-stack-js-compiler 
+# New name!
+
+Use Scala Stack JS Compiler instead. It's the same repository but with a new name. Link https://github.com/AIMMOTH/scala-stack-js-compiler 
 
 --- 
 
